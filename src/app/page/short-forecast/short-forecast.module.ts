@@ -14,6 +14,9 @@ import { HourlyForecastComponent } from './hourly-forecast/hourly-forecast.compo
   ],
   imports: [
     CommonModule
-  ]
+  ],
+  exports: [CurrentDayComponent,
+    SelectedDayComponent,
+    HourlyForecastComponent]
 })
 export class ShortForecastModule { }
