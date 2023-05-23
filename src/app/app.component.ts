@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.scss']
 }) 
 export class AppComponent implements OnInit {
-  public latitude!: number;
-  public longitude!: number;
-  public adress!: string;
+  public latitude: number=0;
+  public longitude: number=0;
+  public adress: string ='';
 
   constructor(http:HttpClient){}
 
@@ -20,12 +20,19 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${this.latitude}&lon=${this.longitude}`;
+    // Utilisez l'URL avec la latitude et la longitude mises à jour
+    console.log(url);
+
     const watchId = navigator.geolocation.watchPosition((position) => {
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
     });
     this.getAdress()
+    console.log
   }
 }
-const url = 'https://nominatim.openstreetmap.org/reverse?lat=3&lon=50'
+
 
