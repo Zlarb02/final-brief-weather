@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrentLocationService } from './services/current-location.service';
+import { Weather } from './models/weather';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +8,30 @@ import { CurrentLocationService } from './services/current-location.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  weather!: object;
+  something!: string;
 
-  public something!: any
-  constructor(private currentLocationService: CurrentLocationService) { }
+  constructor(private currentLocationService: CurrentLocationService) {}
 
   ngOnInit() {
-    this.currentLocationService.getCurrentLocation(50, 3)
-      .subscribe(
-        (data) => {
-          this.something = data;
-        }
-      );
+    this.currentLocationService.getCurrentLocation(50, 3).subscribe((data) => {
+      this.weather = data;
+    });
   }
 
   logResponse() {
-    console.log(this.something)
+    console.log(this.something);
+  }
+
+  getWeatherInfos(longitude: number, latitude: number) {
+    this.currentLocationService
+      .getCurrentLocation(longitude, latitude)
+      .subscribe({
+        next: (data) => {
+          this.weather = data;
+          console.log(data);
+        },
+      });
   }
 }
 
