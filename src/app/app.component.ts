@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrentLocationService } from './services/current-location.service';
-import { ChoosenLocationService } from './services/choosen-location.service';
+import { ChosenLocationService } from './services/chosen-location.service';
 import { WeatherService } from './services/weather.service';
 
 @Component({
@@ -11,10 +11,10 @@ import { WeatherService } from './services/weather.service';
 export class AppComponent implements OnInit {
 
   public currentLocation: any | undefined;
-  public choosenLocation: any | undefined;
+  public chosenLocation: any | undefined;
   public weather: any | undefined;
 
-  constructor(private currentLocationService: CurrentLocationService, private choosenLocationService: ChoosenLocationService, private weatherService: WeatherService) { }
+  constructor(private currentLocationService: CurrentLocationService, private chosenLocationService: ChosenLocationService, private weatherService: WeatherService) { }
 
   ngOnInit() {
     this.currentLocationService.getCurrentLocationFromBrowser()
@@ -34,11 +34,11 @@ export class AppComponent implements OnInit {
   }
 
   search() {
-    this.choosenLocationService.getLatAndLonFromSearch('Paris')
+    this.chosenLocationService.getLatAndLonFromSearch('Paris')
       .subscribe(
-        (choosen) => {
-          this.choosenLocation = choosen;
-          console.log(this.choosenLocation);
+        (chosen) => {
+          this.chosenLocation = chosen;
+          console.log(this.chosenLocation);
         },
         (error) => {
           console.error(error);
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
   }
 
   getWeather() {
-    this.weatherService.getSevenDaysForecast(this.currentLocation.lat, this.currentLocation.lon)
+    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
       .subscribe(
         (weather) => {
           this.weather = weather;

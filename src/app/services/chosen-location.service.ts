@@ -6,7 +6,7 @@ import { Location } from '../models/location';
 @Injectable({
   providedIn: 'root'
 })
-export class ChoosenLocationService {
+export class ChosenLocationService {
 
   constructor(private http: HttpClient) { }
 
