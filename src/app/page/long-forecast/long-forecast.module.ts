@@ -10,6 +10,9 @@ import { SevenDaysComponent } from './seven-days/seven-days.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    SevenDaysComponent
   ]
 })
 export class LongForecastModule { }

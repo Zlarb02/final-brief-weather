@@ -8,20 +8,10 @@ import { CurrentLocationService } from './services/current-location.service';
 })
 export class AppComponent implements OnInit {
 
-  public something!: any
-  constructor(private currentLocationService: CurrentLocationService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.currentLocationService.getCurrentLocation(50, 3)
-      .subscribe(
-        (data) => {
-          this.something = data;
-        }
-      );
-  }
 
-  logResponse() {
-    console.log(this.something)
   }
 }
 
