@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrentLocationService } from './services/current-location.service';
-import { Weather } from './models/weather';
+import { ChosenLocationService } from './services/chosen-location.service';
+import { WeatherService } from './services/weather.service';
 
 @Component({
   selector: 'app-root',
@@ -8,30 +9,51 @@ import { Weather } from './models/weather';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  weather!: object;
-  something!: string;
+  public currentLocation: any | undefined;
+  public chosenLocation: any | undefined;
+  public weather: any | undefined;
 
-  constructor(private currentLocationService: CurrentLocationService) {}
+  constructor(
+    private currentLocationService: CurrentLocationService,
+    private chosenLocationService: ChosenLocationService,
+    private weatherService: WeatherService
+  ) {}
 
   ngOnInit() {
-    this.currentLocationService.getCurrentLocation(50, 3).subscribe((data) => {
-      this.weather = data;
-    });
+    this.currentLocationService.getCurrentLocationFromBrowser().subscribe(
+      (location) => {
+        this.currentLocation = location;
+        console.log(this.currentLocation);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
-  logResponse() {
-    console.log(this.something);
+  search() {
+    this.chosenLocationService.getLatAndLonFromSearch('Paris').subscribe(
+      (chosen) => {
+        this.chosenLocation = chosen;
+        console.log(this.chosenLocation);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
-  getWeatherInfos(longitude: number, latitude: number) {
-    this.currentLocationService
-      .getCurrentLocation(longitude, latitude)
-      .subscribe({
-        next: (data) => {
-          this.weather = data;
-          console.log(data);
+  getWeather() {
+    this.weatherService
+      .getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+      .subscribe(
+        (weather) => {
+          this.weather = weather;
+          console.log(this.weather);
         },
-      });
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 }
-
