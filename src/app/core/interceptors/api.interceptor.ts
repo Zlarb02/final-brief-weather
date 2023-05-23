@@ -13,15 +13,15 @@ export class ApiInterceptor implements HttpInterceptor {
 
     if (request.url.includes('search_location_api_endpoint')) {
       modifiedRequest = request.clone({
-        url: `${environment.search_location_api_endpoint}${request.url}`
+        url: `${environment.search_location_api_endpoint}${request.url.replace('search_location_api_endpoint', '')}`
       });
     } else if (request.url.includes('current_location_api_endpoint')) {
       modifiedRequest = request.clone({
-        url: `${environment.current_location_api_endpoint}${request.url}`
+        url: `${environment.current_location_api_endpoint}${request.url.replace('current_location_api_endpoint', '')}`
       });
     } else if (request.url.includes('weather_api_endpoint')) {
       modifiedRequest = request.clone({
-        url: `${environment.weather_api_endpoint}${request.url}`
+        url: `${environment.weather_api_endpoint}${request.url.replace('weather_api_endpoint', '')}`
       });
     }
 
