@@ -4,8 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Location } from '../models/location';
 
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CurrentLocationService {
 
