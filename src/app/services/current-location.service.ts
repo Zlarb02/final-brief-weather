@@ -7,14 +7,11 @@ import { Location } from '../models/location';
 })
 export class CurrentLocationService {
 
-  
-  getLatAndLonFromCityName(Location: string): Observable<Location[]> {
-    // https://nominatim.openstreetmap.org/search.php?q=paris&format=jsonv2
+  constructor(private http: HttpClient) { }
 
-    return this.http.get<Location[]>(
-      'https://nominatim.openstreetmap.org/search.php?q=' +
-        Location +
-        '&format=jsonv2'
-    );
+  getCurrentLocation(lat: number, lon: number) {
+    const url = `current_location_api_endpoint/reverse?lat=${lat}&lon=${lon}`;
+
+    return this.http.get(url);
   }
 }
