@@ -16,6 +16,11 @@ export class SevenDaysComponent implements AfterViewInit {
   public sevenWeather!: number[];
   public sevenWeatherDescriptions!: string[];
   public sevenWeatherIcons!: string[];
+  public sevenWeatherTempMin!: number[];
+  public sevenWeatherTempMax!: number[];
+  public sevenWeatherApparentTempMin!: number[];
+  public sevenWeatherApparentTempMax!: number[];
+  public sevenWeatherPrecipitationProbabilityMean!: number[]
 
 
   constructor(private weatherService: WeatherService) { }
@@ -31,6 +36,11 @@ export class SevenDaysComponent implements AfterViewInit {
       .subscribe(
         (weather) => {
           this.dates = weather.daily.time;
+          this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+          this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+          this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+          this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+          this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
           this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
           this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
           return this.dailyForecast = weather.daily;
