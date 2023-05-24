@@ -1,12 +1,10 @@
-<p>seven-days works!</p>
+<button (click)="getDailyForecast()">get seven days weather</button>
 
-<button (click)="getSevenDaysWeather()">get seven days weather</button>
-
-<div class="row">
-    <div class="col" *ngFor="let date of dates">
+<div *ngIf="dailyForecast" class="row">
+    <div class="col" *ngFor="let date of dailyForecast.time; let i = index">
         <div class="card">
             <div class="card-body">
-                {{ date | date }}
+                {{ date }} {{ sevenWeatherDescriptions[i] }}
             </div>
         </div>
     </div>
