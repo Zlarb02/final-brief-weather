@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Daily } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -8,7 +8,7 @@ import { WeatherService } from 'src/app/services/weather.service';
   templateUrl: './selected-day.component.html',
   styleUrls: ['./selected-day.component.scss']
 })
-export class SelectedDayComponent implements OnInit {
+export class SelectedDayComponent {
   @Input() currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
@@ -37,15 +37,8 @@ export class SelectedDayComponent implements OnInit {
 
   }
 
-
-  ngOnInit() {
-    console.log(this.dayIndex)
-  }
-
-
-
-  ngAfterViewInit(): void {
-    if (this.weather != undefined) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getDailyForecast();
     }
   }

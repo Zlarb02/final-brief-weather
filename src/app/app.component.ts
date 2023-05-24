@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CurrentLocationService } from './services/current-location.service';
-import { ChosenLocationService } from './services/chosen-location.service';
-import { WeatherService } from './services/weather.service';
+import { Component } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Daily } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './seven-days.component.html',
   styleUrls: ['./seven-days.component.scss']
 })
-export class SevenDaysComponent implements AfterViewInit {
+export class SevenDaysComponent {
   @Input() currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
@@ -26,8 +26,8 @@ export class SevenDaysComponent implements AfterViewInit {
 
   constructor(private weatherService: WeatherService, private router: Router) { }
 
-  ngAfterViewInit(): void {
-    if (this.weather != undefined) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getDailyForecast();
     }
   }
