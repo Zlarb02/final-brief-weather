@@ -20,7 +20,6 @@ export class HourlyForecastComponent {
   public hourlyWeatherTemp!: number[];
   public hourlyWeatherApparentTemp!: number[];
   public hourlyWeatherPrecipitationProbability!: number[]
-  public showDetails!: any[];
 
   private currentDay!: string;
   public dayIndex!: number;
@@ -43,7 +42,6 @@ export class HourlyForecastComponent {
   getHourlyForecast(dayIndex: number) {
     const startIndex = dayIndex * 24;
     const endIndex = startIndex + 24;
-    this.showDetails = new Array(24).fill(false);
     this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
       .subscribe(
         (weather) => {
@@ -61,8 +59,5 @@ export class HourlyForecastComponent {
       );
   }
 
-  toggleDetails(index: number) {
-    this.showDetails[index] = !this.showDetails[index];
-  }
 
 }

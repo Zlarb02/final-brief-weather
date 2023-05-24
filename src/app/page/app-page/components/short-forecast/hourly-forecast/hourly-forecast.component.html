@@ -1,19 +1,14 @@
-<div class="card-container">
-    <div *ngIf="hourlyForecast" class="row">
-        <div class="col" *ngFor="let hour of hours; let i = index">
-            <div class="card">
-                <div class="card-body">
-                    {{ hour }}
-                    <img src="assets/weather_img/{{ hourlyWeatherIcons[i] }}" alt="Weather Icon">
-                    <br> {{ hourlyWeatherDescriptions[i] }} <br>
-                    <button (click)="toggleDetails(i)">toggle</button>
-                    <div *ngIf="showDetails[i]">
-                        Temperature : {{ hourlyWeatherTemp[i] }}°C <br> <br>
-                        Temperature ressenties: {{ hourlyWeatherApparentTemp[i] }}°C <br> <br>
-                        Chances de précipitations: {{ hourlyWeatherPrecipitationProbability[i] }} %
+<div class="hourly-container">
+    <label>Prévisions par heures : </label>
+    <div class="card-container">
+        <div *ngIf="hourlyForecast" class="row">
+            <div class="col" *ngFor="let hour of hours; let i = index">
+                <div class="card hourly-card">
+                    <div class="card-body hourly-card-body">
+                        {{ hour }}
+                        <img src="assets/weather_img/{{ hourlyWeatherIcons[i] }}" alt="Weather Icon">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
