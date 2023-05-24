@@ -16,6 +16,7 @@
 body{
     font-family: 'Poppins', sans-serif;
     font-size: 17px;
+    color: white;
     width: 100%;
     height: 100vh;
     background-color: var(--blue1);
@@ -30,6 +31,24 @@ body{
     background-color: var(--blue2);
     border-radius: 20px;
     box-shadow: 10px 10px 10px var(--shadow-dark);
+}
+
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    width: 90vw;
+    border-radius: 5px;
+    border: solid 6px var(--blue2);
+    margin: 10px;
+    padding: 10px
+}
+
+.row {
+    flex-shrink: 0;
+}
+
+.card {
+    background-color: var(--shadow-light);
 }
 
 .upper-data{
@@ -74,13 +93,11 @@ body{
 }
 
 .location {
-    color: white;
     text-align: center;
     font-size: 1.2em;
 }
 
 .temp{
-    color: white;
     text-align: center;
     font-size: 4em;
     font-weight: 900;

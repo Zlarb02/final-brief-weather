@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./seven-days.component.scss']
 })
 export class SevenDaysComponent {
-  @Input() currentLocation: any | undefined;
+  @Input() public currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
   public dailyForecast!: Daily;

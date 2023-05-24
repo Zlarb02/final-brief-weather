@@ -9,7 +9,7 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./selected-day.component.scss']
 })
 export class SelectedDayComponent {
-  @Input() currentLocation: any | undefined;
+  @Input() public currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
   public dailyForecast!: Daily;
@@ -25,7 +25,6 @@ export class SelectedDayComponent {
 
   private currentDay!: string;
   public dayIndex!: number;
-
 
   constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute) {
     const url = window.location.pathname;

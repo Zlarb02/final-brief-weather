@@ -1,5 +1,10 @@
 <app-selected-day [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
     [weather]="weather"></app-selected-day>
 
+<label>Prévisions par heures : </label>
+<app-hourly-forecast [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
+    [weather]="weather"></app-hourly-forecast>
+
+<label>Prévisions par jours : </label>
 <app-seven-days [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
     [weather]="weather"></app-seven-days>
