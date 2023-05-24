@@ -4,7 +4,9 @@
     <div class="col" *ngFor="let date of dailyForecast.time; let i = index">
         <div class="card">
             <div class="card-body">
-                {{ date }} {{ sevenWeatherDescriptions[i] }}
+                {{ formatDate(date) }}
+                <img src="assets/weather_img/{{ sevenWeatherIcons[i] }}" alt="Weather Icon">
+                {{ sevenWeatherDescriptions[i] }}
             </div>
         </div>
     </div>

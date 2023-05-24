@@ -49,4 +49,40 @@ export class WeatherService {
   getWeatherDescription(code: number): string {
     return this.weatherDescriptions[code] || '';
   }
+
+  private weatherIcons: { [key: number]: string } = {
+    0: 'clear_sky.png',
+    1: 'light_clouds.png',
+    2: 'partly_cloudy.png',
+    3: 'cloudy.png',
+    45: 'light_fog.png',
+    48: 'dense_fog.png',
+    51: 'drizzle.png',
+    53: 'drizzle.png',
+    55: 'drizzle.png',
+    56: 'rain_snow.png',
+    57: 'rain_snow.png',
+    61: 'rain.png',
+    63: 'rain.png',
+    65: 'rain.png',
+    66: 'freezing_rain.png',
+    67: 'freezing_rain.png',
+    71: 'snow.png',
+    73: 'snow.png',
+    75: 'snow.png',
+    77: 'snow.png',
+    80: 'rain_shower.png',
+    81: 'rain_shower.png',
+    82: 'rain_shower.png',
+    85: 'snow_shower.png',
+    86: 'snow_shower.png',
+    95: 'thunderstorms.png',
+    96: 'thunderstorms.png',
+    99: 'thunderstorms.png',
+  };
+
+  getWeatherIcon(code: number): string {
+    return this.weatherIcons[code] || '';
+  }
+
 }
