@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Daily } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seven-days',
@@ -23,7 +24,7 @@ export class SevenDaysComponent implements AfterViewInit {
   public sevenWeatherPrecipitationProbabilityMean!: number[]
 
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private router: Router) { }
 
   ngAfterViewInit(): void {
     if (this.weather != undefined) {
@@ -63,4 +64,8 @@ export class SevenDaysComponent implements AfterViewInit {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
+  navigateToDay(i: number) {
+    const dayIndex = i + 1;
+    this.router.navigateByUrl('/day/' + dayIndex);
+  }
 }
