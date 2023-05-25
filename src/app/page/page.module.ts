@@ -4,12 +4,14 @@ import { CurrentDayComponent } from './short-forecast/current-day/current-day.co
 import { ShortForecastModule } from './short-forecast/short-forecast.module';
 import { LongForecastModule } from './long-forecast/long-forecast.module';
 import { SevenDaysComponent } from './long-forecast/seven-days/seven-days.component';
-
-
+import { SearchModule } from '../core/search/search.module';
+import { SearchBarComponent } from '../core/search/search-bar/search-bar.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [CommonModule, ShortForecastModule, LongForecastModule],
   exports: [CurrentDayComponent, SevenDaysComponent],
 })
-export class PageModule { }
+export class PageModule {}

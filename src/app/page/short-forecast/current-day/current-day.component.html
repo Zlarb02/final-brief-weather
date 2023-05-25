@@ -1,11 +1,19 @@
-
+<!-- <div class="search">
+  <form #form="ngForm" (submit)="onSubmit()">
+    <input type="text" placeholder="Nom de la ville" name="city" [(ngModel)]="cityName">
+  </form> 
+</div> -->
 <div class="container">
   <div class="upper-data">
-    <img src="../assets/cold.jpeg" alt="cold"/>
+    <img src="../assets/cold.jpeg" alt="cold" />
     <img src="../assets/sun.jpeg" alt="sun" />
     <div class="meteo-data">
-      <div class="location"></div>
-      <div class="temp">°C</div>
+      <div class="location">
+        {{ currentLocation.display_name.split(",")[2] }}
+      </div>
+      <div class="temp">
+        {{ weather.current_weather.temperature | number : "1.0-0" }}°C
+      </div>
     </div>
   </div>
   <div class="lower-data">
@@ -30,16 +38,17 @@
           <img src="../assets/humidity.png" alt="" />
           <span>Humidite</span>
         </div>
-        <div class="infos-block-value"> %</div>
+        <div class="infos-block-value">%</div>
       </div>
       <div class="infos-block">
         <div class="infos-block-label">
           <img src="../assets/vent.jpeg" alt="" />
           <span>Vent</span>
         </div>
-        <div class="infos-block-value"></div>
+        <div class="infos-block-value">
+          {{ weather.current_weather.windspeed | number : "1.0-0" }}
+        </div>
       </div>
     </div>
   </div>
-</div> 
-
+</div>

@@ -20,9 +20,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // au demarage du composant on execute ce code: va recuperer l'endroit ou tu trouve
     this.currentLocationService.getCurrentLocationFromBrowser().subscribe(
       (location) => {
         this.currentLocation = location;
+        this.search();
+        this.getWeather();
         console.log(this.currentLocation);
       },
       (error) => {
