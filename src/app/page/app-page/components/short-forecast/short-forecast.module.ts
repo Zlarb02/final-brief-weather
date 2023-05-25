@@ -13,7 +13,7 @@ import { HourlyForecastComponent } from './hourly-forecast/hourly-forecast.compo
     HourlyForecastComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [CurrentDayComponent,
     SelectedDayComponent,

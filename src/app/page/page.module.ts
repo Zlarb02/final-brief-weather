@@ -7,6 +7,8 @@ import { SevenDaysComponent } from './app-page/components/long-forecast/seven-da
 import { CurrentDayComponent } from './app-page/components/short-forecast/current-day/current-day.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { PageRoutingModule } from './page-routing.module';
+import { SearchModule } from '../core/search/search.module';
+import { SearchBarComponent } from '../core/search/search-bar/search-bar.component';
 
 
 
@@ -14,7 +16,7 @@ import { PageRoutingModule } from './page-routing.module';
   declarations: [
     AppPageComponent
   ],
-  imports: [CommonModule, ShortForecastModule, LongForecastModule, PageRoutingModule, AppRoutingModule],
-  exports: [CurrentDayComponent, SevenDaysComponent, AppPageComponent],
+  imports: [CommonModule, ShortForecastModule, LongForecastModule, PageRoutingModule, AppRoutingModule, SearchModule],
+  exports: [CurrentDayComponent, SevenDaysComponent, AppPageComponent, SearchBarComponent],
 })
 export class PageModule { }
