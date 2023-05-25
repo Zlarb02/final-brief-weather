@@ -34,7 +34,18 @@
             <div class="infos-block">
                 <div class="infos-block-label">
                     <img src="../assets/vent.jpeg" alt="" />
-                    /* bhbg hgv */
+                    <i class="fa-solid fa-wind"></i>
+                    <i class="fa-solid fa-arrow-down-long"></i>
+                    <p>wind direction at 10m: {{ winddirection_10m[dayIndex] }}
+                        <span *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 90">Nord</span>
+                        <span *ngIf="winddirection_10m[dayIndex] >= 90 && winddirection_10m[dayIndex] < 180">Est</span>
+                        <span *ngIf="winddirection_10m[dayIndex] >= 180 && winddirection_10m[dayIndex] < 270">Sud</span>
+                        <span *ngIf="winddirection_10m[dayIndex] >= 270 && winddirection_10m[dayIndex] < 360">Ouest</span>
+                    </p>
+                    
+                    <!-- afficher la valeur direction du vent de 0 a 360 -->
+                    <!-- afficher nord/sud/est/ouest ou nord/nord est (précision que tu veux) -->
+                    <!-- afficher une fleche avec selected-day.component.scss -->
                     <span>Vent</span>
                 </div>
                 <div class="infos-block-value"></div>

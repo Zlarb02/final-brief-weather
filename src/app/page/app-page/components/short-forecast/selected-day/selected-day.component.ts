@@ -21,7 +21,8 @@ export class SelectedDayComponent {
   public sevenWeatherTempMax!: number[];
   public sevenWeatherApparentTempMin!: number[];
   public sevenWeatherApparentTempMax!: number[];
-  public sevenWeatherPrecipitationProbabilityMean!: number[]
+  public sevenWeatherPrecipitationProbabilityMean!: number[];
+  public winddirection_10m!: number[];
 
   private currentDay!: string;
   public dayIndex!: number;
@@ -54,6 +55,7 @@ export class SelectedDayComponent {
           this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
           this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
           this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+          this.winddirection_10m =  weather.daily.winddirection_10m_dominant;
           return this.dailyForecast = weather.daily;
         },
         (error) => {
@@ -73,4 +75,8 @@ export class SelectedDayComponent {
 
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
+
+
+
+  /** récupérer la direction du vent et l'envoyer dans le html bon courage */
 }
