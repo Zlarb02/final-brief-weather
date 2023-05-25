@@ -1,0 +1,25 @@
+
+.hourly-container{
+    margin-top: 2vh;
+    width: 95vw;
+    background-color: var(--blue2);
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px var(--shadow-dark);
+}
+
+.card-container {
+    display: flex;
+    overflow-x: scroll;
+    border-radius: 5px;
+    border: solid 3px var(--blue2);
+    margin: 2vmin;
+    padding: 2vmin
+}
+.row {
+    flex-shrink: 0;
+}
+
+.card {
+    background-color: var(--shadow-light);
+    font-size: smaller;
+}
