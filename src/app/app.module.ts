@@ -5,17 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { WeatherComponent } from './weather/weather.component';
+import { ForecastComponent } from './forecast/forecast.component';
+import { DetailsComponent } from './details/details.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    WeatherComponent
+    WeatherComponent,
+    ForecastComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,5 @@
-<p>search works!</p>
+<form (ngSubmit)="searchCity()">
+    <input type="text" [(ngModel)]="cityName" placeholder="Entrz le nom de la ville">
+    <button type="submit">rechercher</button>
+
+</form>
