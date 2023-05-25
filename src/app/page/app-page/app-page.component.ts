@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { ChosenLocationService } from 'src/app/services/chosen-location.service';
 import { CurrentLocationService } from 'src/app/services/current-location.service';
-import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-page',
@@ -13,11 +11,11 @@ export class AppPageComponent {
   public chosenLocation: any | undefined;
   public weather: any | undefined;
 
-  constructor(
-    private currentLocationService: CurrentLocationService,
-    private chosenLocationService: ChosenLocationService,
-    private weatherService: WeatherService
-  ) { }
+  public date = new Date();
+  public currentHour = this.date.getHours();
+  public currentMinute = this.date.getMinutes();
+
+  constructor(private currentLocationService: CurrentLocationService) { }
 
   ngOnInit() {
     this.currentLocationService.getCurrentLocationFromBrowser().subscribe(
@@ -29,31 +27,5 @@ export class AppPageComponent {
         console.error(error);
       }
     );
-  }
-
-  search() {
-    this.chosenLocationService.getLatAndLonFromSearch('Paris').subscribe(
-      (chosen) => {
-        this.chosenLocation = chosen;
-        console.log(this.chosenLocation);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  getWeather() {
-    this.weatherService
-      .getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.weather = weather;
-          console.log(this.weather);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
   }
 }
