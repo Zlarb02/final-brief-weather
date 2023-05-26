@@ -7,6 +7,13 @@
         </div>
     </div>
     <div class="lower-data">
+        <div *ngIf="currentHourForecast">
+            {{currentHourForecast.hour}}
+            {{currentHourForecast.icon}}
+            {{currentHourForecast.description}}
+            {{currentHourForecast.temperature}}
+            {{currentHourForecast.apparentTemperature}}
+            {{currentHourForecast.precipitationProbability}}</div>
         <label>day :</label>
         <span>{{ formatDate(dates[dayIndex]) }}</span>
         <div class="more-infos-label">More informations</div>

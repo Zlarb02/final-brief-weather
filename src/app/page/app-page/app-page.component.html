@@ -1,18 +1,10 @@
 <app-search-bar>[cityName]="cityName"</app-search-bar>
-<app-selected-day
-  [currentLocation]="currentLocation"
-  [chosenLocation]="chosenLocation"
-  [weather]="weather"
-></app-selected-day>
 
-<app-hourly-forecast
-  [currentLocation]="currentLocation"
-  [chosenLocation]="chosenLocation"
-  [weather]="weather"
-></app-hourly-forecast>
+<app-selected-day [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
+    [currentHour]="currentHour" [getDailyForecast]="getDailyForecast"></app-selected-day>
 
-<app-seven-days
-  [currentLocation]="currentLocation"
-  [chosenLocation]="chosenLocation"
-  [weather]="weather"
-></app-seven-days>
+<app-hourly-forecast [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
+    [currentHour]="currentHour"></app-hourly-forecast>
+
+<app-seven-days [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
+    [getDailyForecast]="getDailyForecast"></app-seven-days>
