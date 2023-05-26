@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Daily, Hourly } from 'src/app/models/weather';
+import { Location } from 'src/app/models/location';
+import { Daily, Hourly, Weather } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -9,14 +10,14 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./selected-day.component.scss']
 })
 export class SelectedDayComponent {
-  @Input() public currentLocation: any | undefined;
-  @Input() public chosenLocation: any | undefined;
-  @Input() public weather: any | undefined;
+  @Input() public currentLocation!: Location;
+  @Input() public chosenLocation!: Location;
+  @Input() public weather!: Weather;
 
-  @Input() public currentHour: any | undefined;
+  @Input() public currentHour!: string;
 
 
-  @Input() public getDailyForecast: any;
+  @Input() public getDailyForecast!: () => void;
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
   @Input() public sevenWeather!: number[];
@@ -39,7 +40,7 @@ export class SelectedDayComponent {
   @Input() public hourlyWeatherApparentTemp!: number[];
   @Input() public hourlyWeatherPrecipitationProbability!: number[]
 
-  public currentHourForecast!: any;
+  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; description: string; icon: string; } | null
 
 
   private currentDay!: string;
@@ -91,7 +92,6 @@ export class SelectedDayComponent {
           this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
           this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
           this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-          
           setTimeout(() => {
           }, 10); // non dépendant de l'api
         },
@@ -102,7 +102,6 @@ export class SelectedDayComponent {
   }
 
   getCurrentHourForecast() {
-    console.log(this.currentHour)
     const currentHourIndex = this.hours.findIndex(hour => hour === `${this.currentHour}:00`);
     if (currentHourIndex !== -1) {
       const currentHourForecast = {
@@ -112,10 +111,7 @@ export class SelectedDayComponent {
         precipitationProbability: this.hourlyWeatherPrecipitationProbability[currentHourIndex],
         description: this.hourlyWeatherDescriptions[currentHourIndex],
         icon: this.hourlyWeatherIcons[currentHourIndex]
-
       };
-      console.log(currentHourForecast);
-
       return currentHourForecast;
     } else {
       return null;

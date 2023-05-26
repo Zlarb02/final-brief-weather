@@ -1,7 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
 import { Router } from '@angular/router';
-import { Daily } from 'src/app/models/weather';
+import { Daily, Weather } from 'src/app/models/weather';
+import { Location } from 'src/app/models/location';
 
 @Component({
   selector: 'app-seven-days',
@@ -9,10 +10,12 @@ import { Daily } from 'src/app/models/weather';
   styleUrls: ['./seven-days.component.scss']
 })
 export class SevenDaysComponent {
-  @Input() public currentLocation: any | undefined;
-  @Input() public chosenLocation: any | undefined;
-  @Input() public weather: any | undefined;
-  @Input() public getDailyForecast: any;
+  @Input() public currentLocation!: Location;
+  @Input() public chosenLocation!: Location;
+  @Input() public weather!: Weather;
+
+  @Input() public getDailyForecast!: () => void;
+
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
   @Input() public sevenWeather!: number[];

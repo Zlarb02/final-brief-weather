@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Daily, Hourly } from 'src/app/models/weather';
+import { Location } from 'src/app/models/location';
+import { Daily, Weather } from 'src/app/models/weather';
 import { CurrentLocationService } from 'src/app/services/current-location.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -9,13 +10,12 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./app-page.component.scss'],
 })
 export class AppPageComponent {
-  public currentLocation: any | undefined;
-  public chosenLocation: any | undefined;
-  public weather: any | undefined;
-  public cityName: any | undefined;
+  public currentLocation!: Location;
+  public chosenLocation!: Location;
+  public weather!: Weather;
 
-  public date = new Date();
-  public currentHour = this.date.getHours().toString().padStart(2, '0');
+  public date: Date = new Date();
+  public currentHour: string = this.date.getHours().toString().padStart(2, '0');
 
   public dailyForecast!: Daily;
   public dates!: string[];
@@ -30,19 +30,10 @@ export class AppPageComponent {
 
   public winddirection_10m!: number[];
 
-  public hourlyForecast!: Hourly;
-  public hours!: string[];
-  public hourlyWeather!: number[];
-  public hourlyWeatherDescriptions!: string[];
-  public hourlyWeatherIcons!: string[];
-  public hourlyWeatherTemp!: number[];
-  public hourlyWeatherApparentTemp!: number[];
-  public hourlyWeatherPrecipitationProbability!: number[]
-
   private currentDay!: string;
   public dayIndex!: number;
 
- 
+
 
   constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService) {
     const url = window.location.pathname;
@@ -58,9 +49,6 @@ export class AppPageComponent {
       (location) => {
         this.currentLocation = location;
         console.log(this.currentLocation);
-      },
-      (error) => {
-        console.error(error);
       }
     );
   }
@@ -77,25 +65,8 @@ export class AppPageComponent {
           this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
           this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
           this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-          this.winddirection_10m =  weather.daily.winddirection_10m_dominant;
+          this.winddirection_10m = weather.daily.winddirection_10m_dominant;
           return this.dailyForecast = weather.daily;
-        }
-      );
-  }
-
-  getHourlyForecast(dayIndex: number) {
-    const startIndex = dayIndex * 24;
-    const endIndex = startIndex + 24;
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.hourlyForecast = weather.hourly;
-          this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
-          this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
-          this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
-          this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
-          this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
-          this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
         }
       );
   }

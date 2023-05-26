@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Hourly } from 'src/app/models/weather';
+import { Location } from 'src/app/models/location';
+import { Hourly, Weather } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -11,11 +12,11 @@ import { WeatherService } from 'src/app/services/weather.service';
 export class HourlyForecastComponent {
   @ViewChild('cardContainer', { static: false }) cardContainer!: ElementRef;
 
-  @Input() public currentLocation: any | undefined;
-  @Input() public chosenLocation: any | undefined;
-  @Input() public weather: any | undefined;
+  @Input() public currentLocation!: Location;
+  @Input() public chosenLocation!: Location;
+  @Input() public weather!: Weather;
 
-  @Input() public currentHour: any | undefined;
+  @Input() public currentHour!: string;
 
   public hourlyForecast!: Hourly;
   public hours!: string[];
@@ -27,7 +28,8 @@ export class HourlyForecastComponent {
   public hourlyWeatherPrecipitationProbability!: number[]
 
   private currentDay!: string;
-  public dayIndex!: number;
+
+  @Input() public dayIndex!: number;
 
   constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute) {
     const url = window.location.pathname;
@@ -56,7 +58,7 @@ export class HourlyForecastComponent {
 
   isCurrentHour(hour: string): boolean {
     let currentHourToCompare = `${this.currentHour}:00`;
-    if (hour === 'currentHourToCompare') {
+    if (hour === `${currentHourToCompare}`) {
       return true
     }
     else
@@ -79,9 +81,6 @@ export class HourlyForecastComponent {
           setTimeout(() => {
             this.scrollToCurrentHour();
           }, 10);
-        },
-        (error) => {
-          console.error(error);
         }
       );
   }
