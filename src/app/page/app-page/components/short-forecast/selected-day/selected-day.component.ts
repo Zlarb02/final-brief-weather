@@ -2,6 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from 'src/app/models/location';
 import { Daily, Hourly, Weather } from 'src/app/models/weather';
+import { SearchService } from 'src/app/services/search.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -37,17 +38,26 @@ export class SelectedDayComponent {
   @Input() public hourlyWeatherApparentTemp!: number[];
   @Input() public hourlyWeatherPrecipitationProbability!: number[]
 
+  public currentHourForecast!: any;
+ public value: any;
+
   private currentDay!: string;
   public dayIndex!: number;
 
-  constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute, private searchService: SearchService) {
     const url = window.location.pathname;
     this.currentDay = url.charAt(url.length - 1);
     if (this.currentDay === 'e') {
       this.dayIndex = 0
     } else
       this.dayIndex = Number(this.currentDay) - 1;
+  }
 
+  ngOnInit() {
+    this.searchService.loadCity().subscribe((city) => {
+      this.value = city; // Souscrit aux changements de la variable
+    });
+    console.log(this.value)
   }
 
   ngOnChanges(changes: SimpleChanges) {
