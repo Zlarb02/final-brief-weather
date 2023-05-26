@@ -1,6 +1,6 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Daily } from 'src/app/models/weather';
+import { Daily, Hourly } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -12,17 +12,35 @@ export class SelectedDayComponent {
   @Input() public currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
-  public dailyForecast!: Daily;
-  public dates!: string[];
-  public sevenWeather!: number[];
-  public sevenWeatherDescriptions!: string[];
-  public sevenWeatherIcons!: string[];
-  public sevenWeatherTempMin!: number[];
-  public sevenWeatherTempMax!: number[];
-  public sevenWeatherApparentTempMin!: number[];
-  public sevenWeatherApparentTempMax!: number[];
-  public sevenWeatherPrecipitationProbabilityMean!: number[];
-  public winddirection_10m!: number[];
+
+  @Input() public currentHour: any | undefined;
+
+
+  @Input() public getDailyForecast: any;
+  @Input() public dailyForecast!: Daily;
+  @Input() public dates!: string[];
+  @Input() public sevenWeather!: number[];
+  @Input() public sevenWeatherDescriptions!: string[];
+  @Input() public sevenWeatherIcons!: string[];
+  @Input() public sevenWeatherTempMin!: number[];
+  @Input() public sevenWeatherTempMax!: number[];
+  @Input() public sevenWeatherApparentTempMin!: number[];
+  @Input() public sevenWeatherApparentTempMax!: number[];
+  @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
+
+  @Input() public winddirection_10m!: number[];
+
+  @Input() public hourlyForecast!: Hourly;
+  @Input() public hours!: string[];
+  @Input() public hourlyWeather!: number[];
+  @Input() public hourlyWeatherDescriptions!: string[];
+  @Input() public hourlyWeatherIcons!: string[];
+  @Input() public hourlyWeatherTemp!: number[];
+  @Input() public hourlyWeatherApparentTemp!: number[];
+  @Input() public hourlyWeatherPrecipitationProbability!: number[]
+
+  public currentHourForecast!: any;
+
 
   private currentDay!: string;
   public dayIndex!: number;
@@ -40,29 +58,13 @@ export class SelectedDayComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getDailyForecast();
+      this.getHourlyForecast(this.dayIndex);
+      setTimeout(() => {
+        this.currentHourForecast = this.getCurrentHourForecast();
+      }, 1000); // dépendant de l'api
     }
   }
 
-  getDailyForecast() {
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.dates = weather.daily.time;
-          this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
-          this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
-          this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
-          this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
-          this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
-          this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
-          this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-          this.winddirection_10m =  weather.daily.winddirection_10m_dominant;
-          return this.dailyForecast = weather.daily;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-  }
 
   formatDate(date: string): string {
     const weekdays = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
@@ -76,7 +78,49 @@ export class SelectedDayComponent {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
+  getHourlyForecast(dayIndex: number) {
+    const startIndex = dayIndex * 24;
+    const endIndex = startIndex + 24;
+    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+      .subscribe(
+        (weather) => {
+          this.hourlyForecast = weather.hourly;
+          this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
+          this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
+          this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
+          this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+          this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+          this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          
+          setTimeout(() => {
+          }, 10); // non dépendant de l'api
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  getCurrentHourForecast() {
+    console.log(this.currentHour)
+    const currentHourIndex = this.hours.findIndex(hour => hour === `${this.currentHour}:00`);
+    if (currentHourIndex !== -1) {
+      const currentHourForecast = {
+        hour: this.hours[currentHourIndex],
+        temperature: this.hourlyWeatherTemp[currentHourIndex],
+        apparentTemperature: this.hourlyWeatherApparentTemp[currentHourIndex],
+        precipitationProbability: this.hourlyWeatherPrecipitationProbability[currentHourIndex],
+        description: this.hourlyWeatherDescriptions[currentHourIndex],
+        icon: this.hourlyWeatherIcons[currentHourIndex]
+
+      };
+      console.log(currentHourForecast);
+
+      return currentHourForecast;
+    } else {
+      return null;
+    }
+  }
 
 
-  /** récupérer la direction du vent et l'envoyer dans le html bon courage */
 }

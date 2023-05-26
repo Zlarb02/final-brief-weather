@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Hourly } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -9,9 +9,14 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./hourly-forecast.component.scss']
 })
 export class HourlyForecastComponent {
+  @ViewChild('cardContainer', { static: false }) cardContainer!: ElementRef;
+
   @Input() public currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
+
+  @Input() public currentHour: any | undefined;
+
   public hourlyForecast!: Hourly;
   public hours!: string[];
   public hourlyWeather!: number[];
@@ -33,10 +38,29 @@ export class HourlyForecastComponent {
       this.dayIndex = Number(this.currentDay) - 1;
 
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getHourlyForecast(this.dayIndex);
     }
+  }
+
+  scrollToCurrentHour() {
+    if (this.cardContainer && this.cardContainer.nativeElement) {
+      const currentHourCard = this.cardContainer.nativeElement.querySelector('.current-hour-card');
+      if (currentHourCard) {
+        currentHourCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  isCurrentHour(hour: string): boolean {
+    let currentHourToCompare = `${this.currentHour}:00`;
+    if (hour === 'currentHourToCompare') {
+      return true
+    }
+    else
+      return false
   }
 
   getHourlyForecast(dayIndex: number) {
@@ -52,6 +76,9 @@ export class HourlyForecastComponent {
           this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
           this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
           this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          setTimeout(() => {
+            this.scrollToCurrentHour();
+          }, 10);
         },
         (error) => {
           console.error(error);
