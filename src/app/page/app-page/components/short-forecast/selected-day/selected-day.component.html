@@ -2,9 +2,9 @@
     <div class="upper-data">
         <img src="../assets/alain.png" alt="background image" />
         <div class="meteo-data">
-            <div class="location"></div>
+            <div class="location">{{value | json}}</div>
             <div class="temp">°C</div>
-        </div>
+        </div> 
     </div>
     <div class="lower-data">
         <div *ngIf="currentHourForecast">
