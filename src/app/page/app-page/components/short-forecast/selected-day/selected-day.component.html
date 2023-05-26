@@ -2,18 +2,11 @@
     <div class="upper-data">
         <img src="../assets/alain.png" alt="background image" />
         <div class="meteo-data">
-            <div class="location"></div>
+            <div class="location"> city name</div>
             <div class="temp">°C</div>
         </div>
     </div>
     <div class="lower-data">
-        <div *ngIf="currentHourForecast">
-            {{currentHourForecast.hour}}
-            {{currentHourForecast.icon}}
-            {{currentHourForecast.description}}
-            {{currentHourForecast.temperature}}
-            {{currentHourForecast.apparentTemperature}}
-            {{currentHourForecast.precipitationProbability}}</div>
         <label>day :</label>
         <span>{{ formatDate(dates[dayIndex]) }}</span>
         <div class="more-infos-label">More informations</div>
@@ -46,9 +39,10 @@
                         <span *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 90">Nord</span>
                         <span *ngIf="winddirection_10m[dayIndex] >= 90 && winddirection_10m[dayIndex] < 180">Est</span>
                         <span *ngIf="winddirection_10m[dayIndex] >= 180 && winddirection_10m[dayIndex] < 270">Sud</span>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 270 && winddirection_10m[dayIndex] < 360">Ouest</span>
+                        <span
+                            *ngIf="winddirection_10m[dayIndex] >= 270 && winddirection_10m[dayIndex] < 360">Ouest</span>
                     </p>
-                    
+
                     <!-- afficher la valeur direction du vent de 0 a 360 -->
                     <!-- afficher nord/sud/est/ouest ou nord/nord est (précision que tu veux) -->
                     <!-- afficher une fleche avec selected-day.component.scss -->

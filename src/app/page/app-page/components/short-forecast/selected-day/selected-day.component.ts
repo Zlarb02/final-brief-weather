@@ -14,9 +14,6 @@ export class SelectedDayComponent {
   @Input() public chosenLocation!: Location;
   @Input() public weather!: Weather;
 
-  @Input() public currentHour!: string;
-
-
   @Input() public getDailyForecast!: () => void;
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
@@ -40,9 +37,6 @@ export class SelectedDayComponent {
   @Input() public hourlyWeatherApparentTemp!: number[];
   @Input() public hourlyWeatherPrecipitationProbability!: number[]
 
-  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; description: string; icon: string; } | null
-
-
   private currentDay!: string;
   public dayIndex!: number;
 
@@ -60,9 +54,6 @@ export class SelectedDayComponent {
     if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getDailyForecast();
       this.getHourlyForecast(this.dayIndex);
-      setTimeout(() => {
-        this.currentHourForecast = this.getCurrentHourForecast();
-      }, 1000); // dépendant de l'api
     }
   }
 
@@ -94,28 +85,8 @@ export class SelectedDayComponent {
           this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
           setTimeout(() => {
           }, 10); // non dépendant de l'api
-        },
-        (error) => {
-          console.error(error);
         }
       );
-  }
-
-  getCurrentHourForecast() {
-    const currentHourIndex = this.hours.findIndex(hour => hour === `${this.currentHour}:00`);
-    if (currentHourIndex !== -1) {
-      const currentHourForecast = {
-        hour: this.hours[currentHourIndex],
-        temperature: this.hourlyWeatherTemp[currentHourIndex],
-        apparentTemperature: this.hourlyWeatherApparentTemp[currentHourIndex],
-        precipitationProbability: this.hourlyWeatherPrecipitationProbability[currentHourIndex],
-        description: this.hourlyWeatherDescriptions[currentHourIndex],
-        icon: this.hourlyWeatherIcons[currentHourIndex]
-      };
-      return currentHourForecast;
-    } else {
-      return null;
-    }
   }
 
 
