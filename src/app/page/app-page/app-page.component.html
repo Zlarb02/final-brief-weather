@@ -1,8 +1,8 @@
-<app-selected-day [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
-    [weather]="weather"></app-selected-day>
+<app-selected-day [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
+    [currentHour]="currentHour" [getDailyForecast]="getDailyForecast"></app-selected-day>
 
 <app-hourly-forecast [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
-    [currentHour]="currentHour" [currentMinute]="currentMinute"></app-hourly-forecast>
+    [currentHour]="currentHour"></app-hourly-forecast>
 
-<app-seven-days [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
-    [weather]="weather"></app-seven-days>
+<app-seven-days [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
+    [getDailyForecast]="getDailyForecast"></app-seven-days>

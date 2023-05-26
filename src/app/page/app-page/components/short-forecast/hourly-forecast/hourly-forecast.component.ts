@@ -16,7 +16,6 @@ export class HourlyForecastComponent {
   @Input() public weather: any | undefined;
 
   @Input() public currentHour: any | undefined;
-  @Input() public currentMinute: any | undefined;
 
   public hourlyForecast!: Hourly;
   public hours!: string[];
@@ -49,7 +48,6 @@ export class HourlyForecastComponent {
   scrollToCurrentHour() {
     if (this.cardContainer && this.cardContainer.nativeElement) {
       const currentHourCard = this.cardContainer.nativeElement.querySelector('.current-hour-card');
-      console.log(currentHourCard);
       if (currentHourCard) {
         currentHourCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -58,9 +56,7 @@ export class HourlyForecastComponent {
 
   isCurrentHour(hour: string): boolean {
     let currentHourToCompare = `${this.currentHour}:00`;
-    if (hour === currentHourToCompare) {
-      console.log(hour);
-
+    if (hour === 'currentHourToCompare') {
       return true
     }
     else

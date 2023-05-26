@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Daily } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
 import { Router } from '@angular/router';
+import { Daily } from 'src/app/models/weather';
 
 @Component({
   selector: 'app-seven-days',
@@ -12,17 +12,17 @@ export class SevenDaysComponent {
   @Input() public currentLocation: any | undefined;
   @Input() public chosenLocation: any | undefined;
   @Input() public weather: any | undefined;
-  public dailyForecast!: Daily;
-  public dates!: string[];
-  public sevenWeather!: number[];
-  public sevenWeatherDescriptions!: string[];
-  public sevenWeatherIcons!: string[];
-  public sevenWeatherTempMin!: number[];
-  public sevenWeatherTempMax!: number[];
-  public sevenWeatherApparentTempMin!: number[];
-  public sevenWeatherApparentTempMax!: number[];
-  public sevenWeatherPrecipitationProbabilityMean!: number[]
-
+  @Input() public getDailyForecast: any;
+  @Input() public dailyForecast!: Daily;
+  @Input() public dates!: string[];
+  @Input() public sevenWeather!: number[];
+  @Input() public sevenWeatherDescriptions!: string[];
+  @Input() public sevenWeatherIcons!: string[];
+  @Input() public sevenWeatherTempMin!: number[];
+  @Input() public sevenWeatherTempMax!: number[];
+  @Input() public sevenWeatherApparentTempMin!: number[];
+  @Input() public sevenWeatherApparentTempMax!: number[];
+  @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
 
   constructor(private weatherService: WeatherService, private router: Router) { }
 
@@ -32,25 +32,6 @@ export class SevenDaysComponent {
     }
   }
 
-  getDailyForecast() {
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.dates = weather.daily.time;
-          this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
-          this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
-          this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
-          this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
-          this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
-          this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
-          this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-          return this.dailyForecast = weather.daily;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-  }
 
   formatDate(date: string): string {
     const weekdays = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
