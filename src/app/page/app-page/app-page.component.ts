@@ -42,7 +42,7 @@ export class AppPageComponent {
   private currentDay!: string;
   public dayIndex!: number;
 
- 
+
 
   constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService) {
     const url = window.location.pathname;
