@@ -39,7 +39,7 @@ export class SelectedDayComponent {
   @Input() public hourlyWeatherPrecipitationProbability!: number[]
 
   public currentHourForecast!: any;
- public value: any;
+  public choosenPlace: any;
 
   private currentDay!: string;
   public dayIndex!: number;
@@ -54,10 +54,9 @@ export class SelectedDayComponent {
   }
 
   ngOnInit() {
-    this.searchService.loadCity().subscribe((city) => {
-      this.value = city; // Souscrit aux changements de la variable
+    this.searchService.loadCity().subscribe((q) => {
+      this.choosenPlace = q;
     });
-    console.log(this.value)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -94,7 +93,7 @@ export class SelectedDayComponent {
           this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
           this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
           setTimeout(() => {
-          }, 10); // non dépendant de l'api
+          }, 10);
         }
       );
   }

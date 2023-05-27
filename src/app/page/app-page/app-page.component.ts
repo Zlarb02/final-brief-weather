@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { Location } from 'src/app/models/location';
 import { Daily, Weather } from 'src/app/models/weather';
 import { CurrentLocationService } from 'src/app/services/current-location.service';
+import { SearchService } from 'src/app/services/search.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -33,9 +34,11 @@ export class AppPageComponent {
   private currentDay!: string;
   public dayIndex!: number;
 
+  public choosenPlace: any;
 
 
-  constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService) {
+
+  constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService, private searchService: SearchService) {
     const url = window.location.pathname;
     this.currentDay = url.charAt(url.length - 1);
     if (this.currentDay === 'e') {
@@ -51,6 +54,15 @@ export class AppPageComponent {
         console.log(this.currentLocation);
       }
     );
+    this.searchService.loadCity().subscribe((osmObject) => {
+      this.choosenPlace = osmObject;
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
+      this.getDailyForecast();
+    }
   }
 
   getDailyForecast() {

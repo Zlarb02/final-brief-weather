@@ -15,22 +15,17 @@ export class SearchBarComponent implements OnInit {
   constructor(
     private chosenLocationService: ChosenLocationService,
     private searchService: SearchService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
-    //console.log('onsubmit');
-
     this.getCityName(this.locationInput);
   }
 
   getCityName(city: string) {
     this.chosenLocationService.getLatAndLonFromSearch(city).subscribe({
       next: (data) => {
-        console.log('data ==>', data);
-        console.log('data ==>', Number(data[0].lon), Number(data[0].lat));
-
         this.myCity = data[0];
         this.searchService.saveCity(this.myCity);
       },
