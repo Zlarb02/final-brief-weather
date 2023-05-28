@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs';
 import { Location } from 'src/app/models/location';
 import { Daily, Hourly, Weather } from 'src/app/models/weather';
 import { SearchService } from 'src/app/services/search.service';
@@ -39,12 +39,12 @@ export class SelectedDayComponent {
   @Input() public hourlyWeatherPrecipitationProbability!: number[]
 
   public currentHourForecast!: any;
-  public choosenPlace: any;
+  public chosenPlace: any;
 
   private currentDay!: string;
   public dayIndex!: number;
 
-  constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute, private searchService: SearchService) {
+  constructor(private weatherService: WeatherService, private searchService: SearchService) {
     const url = window.location.pathname;
     this.currentDay = url.charAt(url.length - 1);
     if (this.currentDay === 'e') {
@@ -54,8 +54,11 @@ export class SelectedDayComponent {
   }
 
   ngOnInit() {
-    this.searchService.loadCity().subscribe((q) => {
-      this.choosenPlace = q;
+    this.searchService.getPlace().pipe(
+      debounceTime(1000)
+    ).subscribe((osmObj) => {
+      this.chosenPlace = osmObj;
+      this.getDailyForecast();
     });
   }
 
@@ -92,8 +95,6 @@ export class SelectedDayComponent {
           this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
           this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
           this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-          setTimeout(() => {
-          }, 10);
         }
       );
   }

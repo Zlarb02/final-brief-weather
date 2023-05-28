@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { Location } from 'src/app/models/location';
 import { Daily, Weather } from 'src/app/models/weather';
 import { CurrentLocationService } from 'src/app/services/current-location.service';
@@ -34,9 +34,8 @@ export class AppPageComponent {
   private currentDay!: string;
   public dayIndex!: number;
 
-  public choosenPlace: any;
 
-
+  private chosenPlace: any;
 
   constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService, private searchService: SearchService) {
     const url = window.location.pathname;
@@ -51,35 +50,46 @@ export class AppPageComponent {
     this.currentLocationService.getCurrentLocationFromBrowser().subscribe(
       (location) => {
         this.currentLocation = location;
-        console.log(this.currentLocation);
       }
     );
-    this.searchService.loadCity().subscribe((osmObject) => {
-      this.choosenPlace = osmObject;
+    this.searchService.getPlace().subscribe((osmObject) => {
+      this.chosenPlace = osmObject;
+      this.getDailyForecast();
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
-      this.getDailyForecast();
-    }
-  }
-
   getDailyForecast() {
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.dates = weather.daily.time;
-          this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
-          this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
-          this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
-          this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
-          this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
-          this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
-          this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-          this.winddirection_10m = weather.daily.winddirection_10m_dominant;
-          return this.dailyForecast = weather.daily;
-        }
-      );
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            return this.dailyForecast = weather.daily;
+          }
+        );
   }
 }

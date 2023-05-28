@@ -10,7 +10,7 @@ import { SearchService } from 'src/app/services/search.service';
 })
 export class SearchBarComponent implements OnInit {
   locationInput!: string;
-  myCity!: any; // le nom de la ville qu'on va afficher sur la page
+  locationFound!: any; // le nom de la ville qu'on va afficher sur la page
 
   constructor(
     private chosenLocationService: ChosenLocationService,
@@ -20,14 +20,14 @@ export class SearchBarComponent implements OnInit {
   ngOnInit(): void { }
 
   onSubmit() {
-    this.getCityName(this.locationInput);
+    this.getPlaceName(this.locationInput);
   }
 
-  getCityName(city: string) {
-    this.chosenLocationService.getLatAndLonFromSearch(city).subscribe({
-      next: (data) => {
-        this.myCity = data[0];
-        this.searchService.saveCity(this.myCity);
+  getPlaceName(place: string) {
+    this.chosenLocationService.getLatAndLonFromSearch(place).subscribe({
+      next: (osmObj) => {
+        this.locationFound = osmObj[0];
+        this.searchService.setPlace(this.locationFound);
       },
     });
   }

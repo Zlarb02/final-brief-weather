@@ -5,15 +5,15 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class SearchService {
-  private variable$ = new BehaviorSubject<any>(null);
-  
-  constructor() {}
+  private place$ = new BehaviorSubject<any>(null);
 
-  saveCity(city: any) {
-    this.variable$.next(city); // Émet une nouvelle valeur sur le Subject
+  constructor() { }
+
+  setPlace(osmObj: any) {
+    this.place$.next(osmObj); // Émet une nouvelle valeur sur le Subject
   }
 
-  loadCity() {
-    return this.variable$.asObservable(); // Renvoie l'Observable du Subject
+  getPlace() {
+    return this.place$.asObservable(); // Renvoie l'Observable du Subject
   }
 }

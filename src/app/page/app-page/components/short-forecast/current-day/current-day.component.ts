@@ -1,7 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs';
 import { Location } from 'src/app/models/location';
 import { Daily, Hourly, Weather } from 'src/app/models/weather';
+import { SearchService } from 'src/app/services/search.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -46,14 +47,24 @@ export class CurrentDayComponent {
   private currentDay!: string;
   public dayIndex!: number;
 
-  constructor(private weatherService: WeatherService, private router: Router, private activatedRoute: ActivatedRoute) {
+  public chosenPlace: any;
+
+  constructor(private weatherService: WeatherService, private searchService: SearchService) {
     const url = window.location.pathname;
     this.currentDay = url.charAt(url.length - 1);
     if (this.currentDay === 'e') {
       this.dayIndex = 0
     } else
       this.dayIndex = Number(this.currentDay) - 1;
+  }
 
+  ngOnInit() {
+    this.searchService.getPlace().pipe(
+      debounceTime(1000)
+    ).subscribe((osmObj) => {
+      this.chosenPlace = osmObj;
+      this.getDailyForecast();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -62,7 +73,7 @@ export class CurrentDayComponent {
       this.getHourlyForecast(this.dayIndex);
       setTimeout(() => {
         this.currentHourForecast = this.getCurrentHourForecast();
-      }, 1000); // dépendant de l'api
+      }, 500); // dépendant de l'api
     }
   }
 
@@ -82,24 +93,32 @@ export class CurrentDayComponent {
   getHourlyForecast(dayIndex: number) {
     const startIndex = dayIndex * 24;
     const endIndex = startIndex + 24;
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.hourlyForecast = weather.hourly;
-          this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
-          this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
-          this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
-          this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
-          this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
-          this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-          setTimeout(() => {
-          }, 10); // non dépendant de l'api
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    console.log(this.currentLocation)
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.hourlyForecast = weather.hourly;
+            this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
+            this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
+            this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
+            this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+            this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.hourlyForecast = weather.hourly;
+            this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
+            this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
+            this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
+            this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+            this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          }
+        );
   }
 
   getCurrentHourForecast() {
