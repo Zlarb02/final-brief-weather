@@ -55,7 +55,7 @@
 
 .temp{
     text-align: center;
-    font-size: 4em;
+    font-size: 2em;
     font-weight: 900;
 }
 
@@ -100,7 +100,8 @@
 }
 
 .infos-block-value{
-    width: 50%;
+    margin-left: 60px;
+    width: 500px;
     display: block;
     justify-content: flex-start;
     align-items: center;
@@ -110,4 +111,3 @@
 .fa-solid, .fa-regular{
     font-size: 30px;
 }
-

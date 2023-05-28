@@ -62,7 +62,6 @@ export class HourlyForecastComponent {
   scrollToCurrentHour() {
     if (this.cardContainer && this.cardContainer.nativeElement) {
       const currentHourCard = this.cardContainer.nativeElement.querySelector('.current-hour-card');
-      console.log(currentHourCard)
       if (currentHourCard) {
         currentHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }

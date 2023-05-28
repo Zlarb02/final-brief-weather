@@ -11,9 +11,7 @@
         </div>
     </div>
     <div class="lower-data">
-        <label>day :</label>
         <span>{{ formatDate(dates[dayIndex]) }}</span>
-        <div class="more-infos-label">More informations</div>
         <div class="more-infos-container">
             <div class="infos-block">
                 <div class="infos-block-label">
@@ -22,38 +20,57 @@
                 <div class="infos-block-value"> %</div>
             </div>
             <div class="infos-block">
-                <div class="infos-block-label">
-                    <span>Vent :&nbsp;&nbsp;
-                        <i class="fa-solid fa-wind"></i></span>
-                </div>
-                <div class="infos-block-value">
-                    <i class="fa-regular fa-compass"></i>&nbsp;:&nbsp;&nbsp;
-
-                    <p>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 45"> <i
-                                class="fa-solid fa-arrow-down-long wind-arrow"
-                                [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>Nord ->
-                            Sud</span>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 45 && winddirection_10m[dayIndex] < 135"> <i
-                                class="fa-solid fa-arrow-down-long wind-arrow"
-                                [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i> Est ->
-                            Ouest</span>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 135 && winddirection_10m[dayIndex] < 225"> <i
-                                class="fa-solid fa-arrow-down-long wind-arrow"
-                                [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i> Sud ->
-                            Nord</span>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 225 && winddirection_10m[dayIndex] < 315"> <i
-                                class="fa-solid fa-arrow-down-long wind-arrow"
-                                [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i> Ouest
-                            ->
-                            Est</span>
-                        <span *ngIf="winddirection_10m[dayIndex] >= 315 && winddirection_10m[dayIndex] < 360"> <i
-                                class="fa-solid fa-arrow-down-long wind-arrow"
-                                [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i> Nord ->
-                            Sud</span>
+                <div class="infos-block">
+                    <div class="infos-block-label">
+                        Vitesse du vent
+                        <span> <i class="fa-solid fa-wind"></i> :&nbsp;&nbsp;</span>
+                        Provenance/Direction
+                        <span><i class="fa-regular fa-compass"></i>&nbsp;:&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="infos-block-value">
                         <br>
-                        {{windspeed_10m[dayIndex]}} km/h
-                    </p>
+                        <p>{{windspeed_10m[dayIndex]}} km/h</p>
+                        <i class="fa-solid fa-angles-down" *ngIf="windspeed_10m[dayIndex] > 50"
+                            [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
+                        <i class="fa-solid fa-angle-down" *ngIf="windspeed_10m[dayIndex] < 50"
+                            [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
+                        <p>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 11.25">Nord</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 11.25 && winddirection_10m[dayIndex] < 33.75">Nord-Nord-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 33.75 && winddirection_10m[dayIndex] < 56.25">Nord-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 56.25 && winddirection_10m[dayIndex] < 78.75">Est-Nord-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 78.75 && winddirection_10m[dayIndex] < 101.25">Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 101.25 && winddirection_10m[dayIndex] < 123.75">Est-Sud-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 123.75 && winddirection_10m[dayIndex] < 146.25">Sud-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 146.25 && winddirection_10m[dayIndex] < 168.75">Sud-Sud-Est</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 168.75 && winddirection_10m[dayIndex] < 191.25">Sud</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 191.25 && winddirection_10m[dayIndex] < 213.75">Sud-Sud-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 213.75 && winddirection_10m[dayIndex] < 236.25">Sud-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 236.25 && winddirection_10m[dayIndex] < 258.75">Ouest-Sud-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 258.75 && winddirection_10m[dayIndex] < 281.25">Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 281.25 && winddirection_10m[dayIndex] < 303.75">Ouest-Nord-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 303.75 && winddirection_10m[dayIndex] < 326.25">Nord-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 326.25 && winddirection_10m[dayIndex] < 348.75">Nord-Nord-Ouest</span>
+                            <span
+                                *ngIf="winddirection_10m[dayIndex] >= 348.75 || winddirection_10m[dayIndex] < 11.25">Nord</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
