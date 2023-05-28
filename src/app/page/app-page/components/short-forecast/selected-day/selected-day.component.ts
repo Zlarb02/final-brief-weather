@@ -1,5 +1,4 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { debounceTime } from 'rxjs';
 import { Location } from 'src/app/models/location';
 import { Daily, Hourly, Weather } from 'src/app/models/weather';
 import { SearchService } from 'src/app/services/search.service';
@@ -54,11 +53,10 @@ export class SelectedDayComponent {
   }
 
   ngOnInit() {
-    this.searchService.getPlace().pipe(
-      debounceTime(1000)
-    ).subscribe((osmObj) => {
+    this.searchService.getPlace().subscribe((osmObj) => {
       this.chosenPlace = osmObj;
       this.getDailyForecast();
+      this.getHourlyForecast(this.dayIndex);
     });
   }
 

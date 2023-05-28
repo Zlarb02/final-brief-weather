@@ -1,7 +1,5 @@
-
 <div class="search">
-    <form #form="ngForm" (keyup)="onSubmit()">
+    <form #form="ngForm" (submit)="onSubmit()">
         <input type="text" placeholder="Nom de la ville" name="city" [(ngModel)]="locationInput">
     </form>
 </div>
-
