@@ -30,6 +30,7 @@ export class AppPageComponent {
   public sevenWeatherPrecipitationProbabilityMean!: number[]
 
   public winddirection_10m!: number[];
+  public windspeed_10m!: number[];
 
   private currentDay!: string;
   public dayIndex!: number;
@@ -72,6 +73,7 @@ export class AppPageComponent {
             this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
             this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
             this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
             return this.dailyForecast = weather.daily;
           }
         );
@@ -88,6 +90,7 @@ export class AppPageComponent {
             this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
             this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
             this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
             return this.dailyForecast = weather.daily;
           }
         );

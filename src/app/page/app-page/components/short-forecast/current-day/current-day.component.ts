@@ -30,17 +30,19 @@ export class CurrentDayComponent {
   @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
 
   @Input() public winddirection_10m!: number[];
+  @Input() public windspeed_10m!: number[];
 
-  @Input() public hourlyForecast!: Hourly;
-  @Input() public hours!: string[];
-  @Input() public hourlyWeather!: number[];
-  @Input() public hourlyWeatherDescriptions!: string[];
-  @Input() public hourlyWeatherIcons!: string[];
-  @Input() public hourlyWeatherTemp!: number[];
-  @Input() public hourlyWeatherApparentTemp!: number[];
-  @Input() public hourlyWeatherPrecipitationProbability!: number[]
+  public hourlyForecast!: Hourly;
+  public hours!: string[];
+  public hourlyWeather!: number[];
+  public hourlyWeatherDescriptions!: string[];
+  public hourlyWeatherIcons!: string[];
+  public hourlyWeatherTemp!: number[];
+  public hourlyWeatherApparentTemp!: number[];
+  public hourlyWeatherPrecipitationProbability!: number[]
+  public hourlyWeatherHumidity!: number[]
 
-  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; description: string; icon: string; } | null
+  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; humidity: number; description: string; icon: string; } | null
 
 
   private currentDay!: string;
@@ -64,7 +66,7 @@ export class CurrentDayComponent {
       this.getHourlyForecast(this.dayIndex);
       this.currentHourForecast = this.getCurrentHourForecast(); setTimeout(() => {
         this.currentHourForecast = this.getCurrentHourForecast();
-      }, 1000); // dépendant de l'api
+      }, 1500); // dépendant de l'api
     });
   }
 
@@ -103,6 +105,7 @@ export class CurrentDayComponent {
             this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
             this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
             this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
           }
@@ -116,6 +119,7 @@ export class CurrentDayComponent {
             this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
             this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
             this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
           }
@@ -132,6 +136,7 @@ export class CurrentDayComponent {
         temperature: this.hourlyWeatherTemp[currentHourIndex],
         apparentTemperature: this.hourlyWeatherApparentTemp[currentHourIndex],
         precipitationProbability: this.hourlyWeatherPrecipitationProbability[currentHourIndex],
+        humidity: this.hourlyWeatherHumidity[currentHourIndex],
         description: this.hourlyWeatherDescriptions[currentHourIndex],
         icon: this.hourlyWeatherIcons[currentHourIndex]
       };

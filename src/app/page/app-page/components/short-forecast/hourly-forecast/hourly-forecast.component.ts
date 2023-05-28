@@ -62,8 +62,18 @@ export class HourlyForecastComponent {
   scrollToCurrentHour() {
     if (this.cardContainer && this.cardContainer.nativeElement) {
       const currentHourCard = this.cardContainer.nativeElement.querySelector('.current-hour-card');
+      console.log(currentHourCard)
       if (currentHourCard) {
-        currentHourCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        currentHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+      }
+    }
+  }
+
+  scrollTo10() {
+    if (this.cardContainer && this.cardContainer.nativeElement) {
+      const tenHourCard = this.cardContainer.nativeElement.querySelector('.ten-hour-card');
+      if (tenHourCard) {
+        tenHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
   }
@@ -91,8 +101,14 @@ export class HourlyForecastComponent {
             this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-            setTimeout(() => {
-            }, 10);
+            if (dayIndex === 0)
+              setTimeout(() => {
+                this.scrollToCurrentHour()
+              }, 10);
+            if (dayIndex !== 0)
+              setTimeout(() => {
+                this.scrollTo10()
+              }, 10);
           }
         );
     else if (this.currentLocation)
@@ -106,8 +122,14 @@ export class HourlyForecastComponent {
             this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-            setTimeout(() => {
-            }, 10);
+            if (dayIndex === 0)
+              setTimeout(() => {
+                this.scrollToCurrentHour()
+              }, 10);
+            if (dayIndex !== 0)
+              setTimeout(() => {
+                this.scrollTo10()
+              }, 10);
           }
         );
   }

@@ -30,7 +30,7 @@
     flex-direction: column;
 }
 
-.upper-data img {
+.bg-img {
     position:absolute;
     top: -15vh;
     width: 100%;
@@ -55,7 +55,7 @@
 
 .temp{
     text-align: center;
-    font-size: 4em;
+    font-size: 2em;
     font-weight: 900;
 }
 
@@ -96,19 +96,17 @@
 .infos-block-label span {
     color: whitesmoke;
     font-size: .8em;
+    display: flex;
 }
 
 .infos-block-value{
     width: 50%;
-    display: flex;
+    display: block;
     justify-content: flex-start;
     align-items: center;
     color: whitesmoke;
 }
 
-
-.fa-wind{
-    font-size: 60px;
+.fa-solid, .fa-regular{
+    font-size: 30px;
 }
-
-

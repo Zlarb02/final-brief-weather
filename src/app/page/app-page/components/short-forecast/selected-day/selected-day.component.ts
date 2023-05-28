@@ -27,15 +27,16 @@ export class SelectedDayComponent {
   @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
 
   @Input() public winddirection_10m!: number[];
+  @Input() public windspeed_10m!: number[];
 
-  @Input() public hourlyForecast!: Hourly;
-  @Input() public hours!: string[];
-  @Input() public hourlyWeather!: number[];
-  @Input() public hourlyWeatherDescriptions!: string[];
-  @Input() public hourlyWeatherIcons!: string[];
-  @Input() public hourlyWeatherTemp!: number[];
-  @Input() public hourlyWeatherApparentTemp!: number[];
-  @Input() public hourlyWeatherPrecipitationProbability!: number[]
+  public hourlyForecast!: Hourly;
+  public hours!: string[];
+  public hourlyWeather!: number[];
+  public hourlyWeatherDescriptions!: string[];
+  public hourlyWeatherIcons!: string[];
+  public hourlyWeatherTemp!: number[];
+  public hourlyWeatherApparentTemp!: number[];
+  public hourlyWeatherPrecipitationProbability!: number[]
 
   public currentHourForecast!: any;
   public chosenPlace: any;
@@ -83,19 +84,34 @@ export class SelectedDayComponent {
   getHourlyForecast(dayIndex: number) {
     const startIndex = dayIndex * 24;
     const endIndex = startIndex + 24;
-    this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-      .subscribe(
-        (weather) => {
-          this.hourlyForecast = weather.hourly;
-          this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
-          this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
-          this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
-          this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
-          this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
-          this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
-        }
-      );
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
+        .subscribe(
+          (weather) => {
+            this.hourlyForecast = weather.hourly;
+            this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
+            this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
+            this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
+            this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+            this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.hourlyForecast = weather.hourly;
+            this.hours = weather.hourly.time.slice(startIndex, endIndex).map(date => date.split('T')[1]);
+            this.hourlyWeatherTemp = weather.hourly.temperature_2m.slice(startIndex, endIndex);
+            this.hourlyWeatherApparentTemp = weather.hourly.apparent_temperature.slice(startIndex, endIndex);
+            this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
+            this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+            this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+          }
+        );
   }
+
 
 
 }
