@@ -3,6 +3,8 @@ import { WeatherService } from 'src/app/services/weather.service';
 import { Router } from '@angular/router';
 import { Daily, Weather } from 'src/app/models/weather';
 import { Location } from 'src/app/models/location';
+import { SearchService } from 'src/app/services/search.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-seven-days',
@@ -27,7 +29,18 @@ export class SevenDaysComponent {
   @Input() public sevenWeatherApparentTempMax!: number[];
   @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
 
-  constructor(private weatherService: WeatherService, private router: Router) { }
+  public chosenPlace: any
+
+  constructor(private weatherService: WeatherService, private router: Router, private searchService: SearchService) { }
+
+  ngOnInit() {
+    this.searchService.getPlace().pipe(
+      debounceTime(1000)
+    ).subscribe((osmObj) => {
+      this.chosenPlace = osmObj;
+      this.getDailyForecast();
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
