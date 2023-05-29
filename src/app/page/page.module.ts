@@ -9,6 +9,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { PageRoutingModule } from './page-routing.module';
 import { SearchModule } from '../core/search/search.module';
 import { SearchBarComponent } from '../core/search/search-bar/search-bar.component';
+import { SiblingService } from '../services/sibling.service';
 
 
 
@@ -17,6 +18,7 @@ import { SearchBarComponent } from '../core/search/search-bar/search-bar.compone
     AppPageComponent
   ],
   imports: [CommonModule, ShortForecastModule, LongForecastModule, PageRoutingModule, AppRoutingModule, SearchModule],
+  providers: [SiblingService],
   exports: [CurrentDayComponent, SevenDaysComponent, AppPageComponent, SearchBarComponent],
 })
 export class PageModule { }

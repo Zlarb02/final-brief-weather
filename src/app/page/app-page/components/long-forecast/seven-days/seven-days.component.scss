@@ -1,17 +1,20 @@
 
 .daily-container{
     margin-top: 2vh;
+    height: 20vh;
     width: 95vw;
     background-color: var(--blue2);
     border-radius: 20px;
     box-shadow: 10px 10px 10px var(--shadow-dark);
+    padding-bottom: 2.5vmin;
+    overflow: hidden;
 }
 
 .card-container {
     display: flex;
     overflow-x: scroll;
     border-radius: 5px;
-    border: solid 3px var(--blue2);
+    border: solid 3px var(--shadow-dark);
     margin: 10px;
     padding: 10px
 }
@@ -31,7 +34,7 @@
 
 .daily-card-container{
     overflow-x: scroll;
-    height: 17vh;
+    height: 15vh;
 }
 .daily-card{
     width: 15vw;

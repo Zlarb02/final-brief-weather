@@ -16,7 +16,7 @@ export class AppPageComponent {
   public weather!: Weather;
 
   public date: Date = new Date();
-  public currentHour: string = this.date.getHours().toString().padStart(2, '0');
+  public currentHour: number = Number(this.date.getHours().toString().padStart(2, '0'));
 
   public dailyForecast!: Daily;
   public dates!: string[];
@@ -32,19 +32,22 @@ export class AppPageComponent {
   public winddirection_10m!: number[];
   public windspeed_10m!: number[];
 
-  private currentDay!: string;
   public dayIndex!: number;
+  public hourIndex!: number;
 
 
   private chosenPlace: any;
 
   constructor(private currentLocationService: CurrentLocationService, private weatherService: WeatherService, private searchService: SearchService) {
     const url = window.location.pathname;
-    this.currentDay = url.charAt(url.length - 1);
-    if (this.currentDay === 'e') {
-      this.dayIndex = 0
-    } else
-      this.dayIndex = Number(this.currentDay) - 1;
+    const segments = url.split('/');
+    if (segments.length === 4) {
+      this.hourIndex = Number(segments[segments.length - 1]);
+      this.dayIndex = Number(segments[segments.length - 2]) - 1;
+    } else if (segments.length === 3) {
+      this.dayIndex = Number(segments[segments.length - 1]) - 1;
+      this.hourIndex = Number(this.currentHour);
+    }
   }
 
   ngOnInit() {

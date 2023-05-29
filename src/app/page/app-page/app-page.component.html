@@ -1,13 +1,13 @@
 <app-search-bar>[cityName]="cityName"</app-search-bar>
 
 <app-current-day *ngIf="dayIndex === 0" [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
-    [weather]="weather" [currentHour]="currentHour" [getDailyForecast]="getDailyForecast"></app-current-day>
+    [weather]="weather" [getDailyForecast]="getDailyForecast"></app-current-day>
 
 <app-selected-day *ngIf="dayIndex !== 0" [currentLocation]="currentLocation" [chosenLocation]="chosenLocation"
     [weather]="weather" [getDailyForecast]="getDailyForecast"></app-selected-day>
 
 <app-hourly-forecast [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
-    [currentHour]="currentHour"></app-hourly-forecast>
+    [getDailyForecast]="getDailyForecast"></app-hourly-forecast>
 
 <app-seven-days [currentLocation]="currentLocation" [chosenLocation]="chosenLocation" [weather]="weather"
     [getDailyForecast]="getDailyForecast"></app-seven-days>

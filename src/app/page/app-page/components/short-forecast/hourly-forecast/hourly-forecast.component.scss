@@ -5,13 +5,14 @@
     background-color: var(--blue2);
     border-radius: 20px;
     box-shadow: 10px 10px 10px var(--shadow-dark);
+    padding-bottom: 0.5vmin;
 }
 
 .card-container {
     display: flex;
     overflow-x: scroll;
     border-radius: 5px;
-    border: solid 3px var(--blue2);
+    border: solid 3px var(--shadow-dark);
     margin: 2vmin;
     padding: 2vmin
 }
@@ -23,3 +24,4 @@
     background-color: var(--shadow-light);
     font-size: smaller;
 }
+

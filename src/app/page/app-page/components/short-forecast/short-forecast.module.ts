@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CurrentDayComponent } from './current-day/current-day.component';
 import { SelectedDayComponent } from './selected-day/selected-day.component';
 import { HourlyForecastComponent } from './hourly-forecast/hourly-forecast.component';
-import { SearchBarComponent } from 'src/app/core/search/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -18,4 +17,4 @@ import { SearchBarComponent } from 'src/app/core/search/search-bar/search-bar.co
     HourlyForecastComponent
   ],
 })
-export class ShortForecastModule {}
+export class ShortForecastModule { }

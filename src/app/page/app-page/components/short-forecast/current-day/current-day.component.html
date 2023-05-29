@@ -11,7 +11,8 @@
       <div *ngIf="currentHourForecast"> ressentie
         {{currentHourForecast.apparentTemperature}}°C</div>
       <div *ngIf="currentHourForecast">
-        <img src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}" alt="Weather Icon">
+        <img *ngIf="currentHourForecast.icon" src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}"
+          alt="Weather Icon">
         {{currentHourForecast.description}} <br>
         {{currentHourForecast.precipitationProbability}} % de chance de précipitation <br>
         {{currentHourForecast.hour}}
@@ -51,7 +52,7 @@
           <p>{{windspeed_10m[dayIndex]}} km/h</p>
           <i class="fa-solid fa-angles-down" *ngIf="windspeed_10m[dayIndex] > 50"
             [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
-          <i class="fa-solid fa-angle-down" *ngIf="windspeed_10m[dayIndex] < 50"
+          <i class="fa-solid fa-circle-down" *ngIf="windspeed_10m[dayIndex] < 50"
             [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
           <p>
             <span *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 11.25">Nord</span>

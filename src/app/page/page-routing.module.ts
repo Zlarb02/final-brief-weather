@@ -6,43 +6,32 @@ import { SelectedDayComponent } from './app-page/components/short-forecast/selec
 const routes: Routes = [
     {
         path: 'homepage',
-        component: AppPageComponent
+        redirectTo: 'day/1'
     },
     {
         path: 'day',
-        children:
-            [
-                {
-                    path: '1',
+        children: Array.from({ length: 7 }, (_, dayIndex) => {
+            const dayChildren = Array.from({ length: 24 }, (_, hourIndex) => {
+                return {
+                    path: `${hourIndex}`,
                     component: AppPageComponent
-                },
-                {
-                    path: '2',
-                    component: AppPageComponent
-                },
-                {
-                    path: '3',
-                    component: AppPageComponent
-                },
-                {
-                    path: '4',
-                    component: AppPageComponent
-                },
-                {
-                    path: '5',
-                    component: AppPageComponent
-                },
-                {
-                    path: '6',
-                    component: AppPageComponent
-                },
-                {
-                    path: '7',
-                    component: AppPageComponent
-                },
-            ]
+                };
+            });
+
+            return {
+                path: `${dayIndex + 1}`,
+                component: AppPageComponent,
+                children: dayChildren
+            };
+        })
     }
 ];
+
+
+
+
+
+
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

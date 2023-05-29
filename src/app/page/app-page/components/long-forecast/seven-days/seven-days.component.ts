@@ -5,6 +5,7 @@ import { Daily, Weather } from 'src/app/models/weather';
 import { Location } from 'src/app/models/location';
 import { SearchService } from 'src/app/services/search.service';
 import { debounceTime } from 'rxjs';
+import { SiblingService } from 'src/app/services/sibling.service';
 
 @Component({
   selector: 'app-seven-days',
@@ -31,7 +32,7 @@ export class SevenDaysComponent {
 
   public chosenPlace: any
 
-  constructor(private weatherService: WeatherService, private router: Router, private searchService: SearchService) { }
+  constructor(private weatherService: WeatherService, private router: Router, private searchService: SearchService, private siblingService: SiblingService) { }
 
   ngOnInit() {
     this.searchService.getPlace().pipe(
@@ -61,8 +62,17 @@ export class SevenDaysComponent {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
-  navigateToDay(i: number) {
+  navigateToDay(i: number, callCount: number = 0) {
     const dayIndex = i + 1;
-    this.router.navigateByUrl('/day/' + dayIndex);
+    const newUrl = '/day/' + dayIndex;
+
+    this.siblingService.refreshSibling();
+
+    this.router.navigate([newUrl]).then(() => {
+      if (callCount < 1) {
+        this.navigateToDay(i, callCount + 1);
+      }
+    });
   }
+
 }

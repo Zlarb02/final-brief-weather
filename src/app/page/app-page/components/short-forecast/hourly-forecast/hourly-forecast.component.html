@@ -1,10 +1,15 @@
 <div class="container hourly-container">
     <label>Prévisions par heures : </label>
+    <div class="chart-container">
+        <div class="chart">
+            <div class="bar" *ngFor="let temp of hourlyWeatherTemp"></div>
+        </div>
+    </div>
     <div class="card-container" #cardContainer>
         <div *ngIf="hourlyForecast" class="row">
             <div class='col' *ngFor="let hour of hours; let i = index">
-                <div class="card hourly-card"
-                    [ngClass]="{'current-hour-card': isCurrentHour(hour), 'ten-hour-card': i === 10}">
+                <div class="card hourly-card" (click)="navigateToHour(i)"
+                    [ngClass]="{'current-hour-card': isCurrentHour(hour), 'selected-hour-card': isSelectedHour(hour), 'ten-hour-card': i === 10}">
 
                     <div class="card-body hourly-card-body">
                         {{ hour }}
