@@ -15,7 +15,6 @@ export class SelectedDayComponent {
   @Input() public chosenLocation!: Location;
   @Input() public weather!: Weather;
 
-  @Input() public getDailyForecast!: () => void;
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
   @Input() public sevenWeather!: number[];
@@ -72,6 +71,7 @@ export class SelectedDayComponent {
   ngOnInit() {
     this.searchService.getPlace().subscribe((osmObj) => {
       this.chosenPlace = osmObj;
+      this.getDailyForecast();
       this.getHourlyForecast(this.dayIndex)
     });
     this.siblingService.getRefreshObservable().subscribe(() => {
@@ -101,6 +101,43 @@ export class SelectedDayComponent {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
+  getDailyForecast() {
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+  }
+
   getHourlyForecast(dayIndex: number) {
     const startIndex = dayIndex * 24;
     const endIndex = startIndex + 24;
@@ -116,6 +153,8 @@ export class SelectedDayComponent {
             this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.hourly.winddirection_10m.slice(startIndex, endIndex);
+            this.windspeed_10m = weather.hourly.windspeed_10m.slice(startIndex, endIndex);
 
             this.selectedHourForecast = this.getSelectedHourForecast(this.hourIndex);
           }
@@ -132,6 +171,8 @@ export class SelectedDayComponent {
             this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.hourly.winddirection_10m.slice(startIndex, endIndex);
+            this.windspeed_10m = weather.hourly.windspeed_10m.slice(startIndex, endIndex);
 
             this.selectedHourForecast = this.getSelectedHourForecast(this.hourIndex);
           }
@@ -148,7 +189,9 @@ export class SelectedDayComponent {
       precipitationProbability: this.hourlyWeatherPrecipitationProbability[i],
       humidity: this.hourlyWeatherHumidity[i],
       description: this.hourlyWeatherDescriptions[i],
-      icon: this.hourlyWeatherIcons[i]
+      icon: this.hourlyWeatherIcons[i],
+      windDirection: this.winddirection_10m[i],
+      windSpeed: this.windspeed_10m[i]
     };
     return selectedHourForecast;
   }

@@ -4,8 +4,8 @@
     height: 60vh;
     width: 75vw;
     background-color: var(--blue2);
-    border-radius: 20px;
-    box-shadow: 10px 10px 10px var(--shadow-dark);
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
 
@@ -14,8 +14,6 @@
     overflow: hidden;
     width: 100%;
     height: 50%;
-    border-top-left-radius:20px ;
-    border-top-right-radius:20px ;
 }
 
 .lower-data{
@@ -23,17 +21,15 @@
     overflow: hidden;
     width: 100%;
     height: 50%;
-    border-bottom-left-radius:20px ;
-    border-bottom-right-radius:20px ;
-    padding: 1em;
     display: flex;
     flex-direction: column;
 }
 
 .bg-img {
-    position:absolute;
-    top: -15vh;
-    width: 100%;
+    position: absolute;
+    top: -26vmax;
+    left: -50vmax;
+    width: 130vmax;
 }
 
 .meteo-data{
@@ -66,10 +62,6 @@
 .more-infos-container{
     flex: 1;
     background-color: var(--shadow-light);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    margin-top: 1em;
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -109,4 +101,11 @@
 
 .fa-solid, .fa-regular{
     font-size: 30px;
+}
+
+
+@media (max-width: 730px) {
+    .bg-img {
+        left: -70vmax;
+    }
 }

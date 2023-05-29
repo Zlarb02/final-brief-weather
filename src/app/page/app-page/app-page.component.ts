@@ -56,46 +56,7 @@ export class AppPageComponent {
         this.currentLocation = location;
       }
     );
-    this.searchService.getPlace().subscribe((osmObject) => {
-      this.chosenPlace = osmObject;
-      this.getDailyForecast();
-    });
   }
 
-  getDailyForecast() {
-    if (this.chosenPlace)
-      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
-        .subscribe(
-          (weather) => {
-            this.dates = weather.daily.time;
-            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
-            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
-            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
-            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
-            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
-            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
-            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
-            this.windspeed_10m = weather.daily.windspeed_10m_max;
-            return this.dailyForecast = weather.daily;
-          }
-        );
-    else if (this.currentLocation)
-      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
-        .subscribe(
-          (weather) => {
-            this.dates = weather.daily.time;
-            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
-            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
-            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
-            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
-            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
-            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
-            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
-            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
-            this.windspeed_10m = weather.daily.windspeed_10m_max;
-            return this.dailyForecast = weather.daily;
-          }
-        );
-  }
+
 }

@@ -1,11 +1,11 @@
 
 .daily-container{
-    margin-top: 2vh;
-    height: 20vh;
+    margin-top: 2vh;    
+    height: 35vh;
     width: 95vw;
     background-color: var(--blue2);
-    border-radius: 20px;
-    box-shadow: 10px 10px 10px var(--shadow-dark);
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     padding-bottom: 2.5vmin;
     overflow: hidden;
 }
@@ -28,16 +28,12 @@
     font-size: smaller;
 }
 
-.daily-container{
-    height: 20vh;
-}
-
 .daily-card-container{
     overflow-x: scroll;
-    height: 15vh;
+    height: 25vh;
 }
 .daily-card{
-    width: 15vw;
+    width:  25vw;
 }
 
 

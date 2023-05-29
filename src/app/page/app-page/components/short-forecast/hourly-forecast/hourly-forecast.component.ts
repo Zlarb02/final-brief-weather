@@ -37,8 +37,6 @@ export class HourlyForecastComponent {
   @Input() public dayIndex!: number;
   @Input() public hourIndex!: number;
 
-  @Input() public getDailyForecast!: () => void;
-
   public selectedHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; humidity: number; description: string; icon: string; };
 
   constructor(private weatherService: WeatherService, private searchService: SearchService, private router: Router, private route: ActivatedRoute, private location: AngularLocation, private siblingService: SiblingService) {

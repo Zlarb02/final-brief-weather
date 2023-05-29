@@ -17,8 +17,6 @@ export class SevenDaysComponent {
   @Input() public chosenLocation!: Location;
   @Input() public weather!: Weather;
 
-  @Input() public getDailyForecast!: () => void;
-
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
   @Input() public sevenWeather!: number[];
@@ -31,13 +29,13 @@ export class SevenDaysComponent {
   @Input() public sevenWeatherPrecipitationProbabilityMean!: number[]
 
   public chosenPlace: any
+  public winddirection_10m!: number[];
+  public windspeed_10m!: number[];
 
   constructor(private weatherService: WeatherService, private router: Router, private searchService: SearchService, private siblingService: SiblingService) { }
 
   ngOnInit() {
-    this.searchService.getPlace().pipe(
-      debounceTime(1000)
-    ).subscribe((osmObj) => {
+    this.searchService.getPlace().subscribe((osmObj) => {
       this.chosenPlace = osmObj;
       this.getDailyForecast();
     });
@@ -47,6 +45,42 @@ export class SevenDaysComponent {
     if (changes['currentLocation'] && changes['currentLocation'].currentValue) {
       this.getDailyForecast();
     }
+  }
+  getDailyForecast() {
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
   }
 
 
@@ -62,17 +96,5 @@ export class SevenDaysComponent {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
-  navigateToDay(i: number, callCount: number = 0) {
-    const dayIndex = i + 1;
-    const newUrl = '/day/' + dayIndex;
-
-    this.siblingService.refreshSibling();
-
-    this.router.navigate([newUrl]).then(() => {
-      if (callCount < 1) {
-        this.navigateToDay(i, callCount + 1);
-      }
-    });
-  }
 
 }

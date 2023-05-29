@@ -1,5 +1,9 @@
 <div class="search">
     <form #form="ngForm" (submit)="onSubmit()">
-        <input type="text" placeholder="Nom de la ville" name="city" [(ngModel)]="locationInput">
+        <input type="text" placeholder="recherche (villes, pays..)" name="city" [(ngModel)]="locationInput">
     </form>
+</div>
+<div class="slideshow">
+    <div *ngFor="let photo of photos; let i = index" [class.active]="i === currentIndex"
+        [style.background-image]="'url(' + photo.urls.regular + ')'" class="slide"></div>
 </div>

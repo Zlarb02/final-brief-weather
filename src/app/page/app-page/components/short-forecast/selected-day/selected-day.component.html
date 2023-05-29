@@ -2,25 +2,26 @@
     <div class="upper-data">
         <img class="bg-img" src="../assets/alain.png" alt="background image" />
         <div class="meteo-data">
-            <div ng *ngIf="currentLocation && !chosenPlace" class="location">{{ currentLocation.display_name}}
-            </div>
+            <span ng *ngIf="currentLocation && !chosenPlace" class="location">{{ currentLocation.address.city}}, {{
+                currentLocation.address.country}}
+            </span>
             <div ng *ngIf="chosenPlace" class="location">{{chosenPlace.display_name}}
             </div>
+            {{ formatDate(dates[dayIndex]) }}
+            {{selectedHourForecast.hour}}
             <div *ngIf="selectedHourForecast" class="temp">
                 {{selectedHourForecast.temperature}}°C</div>
             <div *ngIf="selectedHourForecast"> ressentie
                 {{selectedHourForecast.apparentTemperature}}°C</div>
             <div *ngIf="selectedHourForecast">
-                <img *ngIf="selectedHourForecast.icon"
-                    src="../../../../../../assets/weather_img/{{selectedHourForecast.icon}}" alt="Weather Icon">
-                {{selectedHourForecast.description}} <br>
-                {{selectedHourForecast.precipitationProbability}} % de chance de précipitation <br>
-                {{selectedHourForecast.hour}}
+                <h3><img *ngIf="selectedHourForecast.icon"
+                        src="../../../../../../assets/weather_img/{{selectedHourForecast.icon}}" alt="Weather Icon">
+                    {{selectedHourForecast.description}}</h3>
+                {{selectedHourForecast.precipitationProbability}} % de chance de pluie
             </div>
         </div>
     </div>
     <div class="lower-data">
-        <span>{{ formatDate(dates[dayIndex]) }}</span>
         <div class="more-infos-container">
             <div class="infos-block">
                 <div class="infos-block-label">
@@ -36,7 +37,7 @@
                         Provenance/Direction
                         <span><i class="fa-regular fa-compass"></i>&nbsp;:&nbsp;&nbsp;</span>
                     </div>
-                    <div class="infos-block-value">
+                    <div *ngIf="!selectedHourForecast" class="infos-block-value">
                         <br>
                         <p>{{windspeed_10m[dayIndex]}} km/h</p>
                         <i class="fa-solid fa-angles-down" *ngIf="windspeed_10m[dayIndex] > 50"
@@ -78,6 +79,50 @@
                                 *ngIf="winddirection_10m[dayIndex] >= 326.25 && winddirection_10m[dayIndex] < 348.75">Nord-Nord-Ouest</span>
                             <span
                                 *ngIf="winddirection_10m[dayIndex] >= 348.75 || winddirection_10m[dayIndex] < 11.25">Nord</span>
+                        </p>
+                    </div>
+                    <div *ngIf="selectedHourForecast" class="infos-block-value">
+                        <br>
+                        <p>{{selectedHourForecast.windSpeed}} km/h</p>
+                        <i class="fa-solid fa-angles-down" *ngIf="selectedHourForecast.windSpeed > 50"
+                            [ngStyle]="{'transform': 'rotate(' + selectedHourForecast.windDirection + 'deg)'}"></i>
+                        <i class="fa-solid fa-circle-down" *ngIf="selectedHourForecast.windSpeed < 50"
+                            [ngStyle]="{'transform': 'rotate(' + selectedHourForecast.windDirection + 'deg)'}"></i>
+                        <p>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 0 && selectedHourForecast.windDirection < 11.25">Nord</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 11.25 && selectedHourForecast.windDirection < 33.75">Nord-Nord-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 33.75 && selectedHourForecast.windDirection < 56.25">Nord-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 56.25 && selectedHourForecast.windDirection < 78.75">Est-Nord-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 78.75 && selectedHourForecast.windDirection < 101.25">Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 101.25 && selectedHourForecast.windDirection < 123.75">Est-Sud-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 123.75 && selectedHourForecast.windDirection < 146.25">Sud-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 146.25 && selectedHourForecast.windDirection < 168.75">Sud-Sud-Est</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 168.75 && selectedHourForecast.windDirection < 191.25">Sud</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 191.25 && selectedHourForecast.windDirection < 213.75">Sud-Sud-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 213.75 && selectedHourForecast.windDirection < 236.25">Sud-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 236.25 && selectedHourForecast.windDirection < 258.75">Ouest-Sud-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 258.75 && selectedHourForecast.windDirection < 281.25">Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 281.25 && selectedHourForecast.windDirection < 303.75">Ouest-Nord-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 303.75 && selectedHourForecast.windDirection < 326.25">Nord-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 326.25 && selectedHourForecast.windDirection < 348.75">Nord-Nord-Ouest</span>
+                            <span
+                                *ngIf="selectedHourForecast.windDirection >= 348.75 || selectedHourForecast.windDirection < 11.25">Nord</span>
                         </p>
                     </div>
                 </div>

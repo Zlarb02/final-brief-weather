@@ -15,7 +15,6 @@ export class CurrentDayComponent {
   @Input() public chosenLocation!: Location;
   @Input() public weather!: Weather;
 
-  @Input() public getDailyForecast!: () => void;
   @Input() public dailyForecast!: Daily;
   @Input() public dates!: string[];
   @Input() public sevenWeather!: number[];
@@ -40,7 +39,7 @@ export class CurrentDayComponent {
   public hourlyWeatherPrecipitationProbability!: number[]
   public hourlyWeatherHumidity!: number[]
 
-  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; humidity: number; description: string; icon: string; } | null;
+  public currentHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; humidity: number; description: string; icon: string; windSpeed: number; windDirection: number; } | null;
 
   public date: Date = new Date();
   public currentHour: number = Number(this.date.getHours().toString().padStart(2, '0'));
@@ -98,6 +97,43 @@ export class CurrentDayComponent {
     return `${dayOfWeek} ${dayOfMonth} ${month}`;
   }
 
+  getDailyForecast() {
+    if (this.chosenPlace)
+      this.weatherService.getWeatherForecast(this.chosenPlace.lat, this.chosenPlace.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+    else if (this.currentLocation)
+      this.weatherService.getWeatherForecast(this.currentLocation.lat, this.currentLocation.lon)
+        .subscribe(
+          (weather) => {
+            this.dates = weather.daily.time;
+            this.sevenWeatherTempMin = weather.daily.temperature_2m_min;
+            this.sevenWeatherTempMax = weather.daily.temperature_2m_max;
+            this.sevenWeatherApparentTempMin = weather.daily.apparent_temperature_min;
+            this.sevenWeatherApparentTempMax = weather.daily.apparent_temperature_max;
+            this.sevenWeatherPrecipitationProbabilityMean = weather.daily.precipitation_probability_mean;
+            this.sevenWeatherDescriptions = weather.daily.weathercode.map(code => this.weatherService.getWeatherDescription(code));
+            this.sevenWeatherIcons = weather.daily.weathercode.map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.daily.winddirection_10m_dominant;
+            this.windspeed_10m = weather.daily.windspeed_10m_max;
+            return this.dailyForecast = weather.daily;
+          }
+        );
+  }
+
   getHourlyForecast(dayIndex: number) {
     const startIndex = dayIndex * 24;
     const endIndex = startIndex + 24;
@@ -113,6 +149,8 @@ export class CurrentDayComponent {
             this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.hourly.winddirection_10m.slice(startIndex, endIndex);
+            this.windspeed_10m = weather.hourly.windspeed_10m.slice(startIndex, endIndex);
             this.currentHourForecast = this.getCurrentHourForecast();
             this.currentHourForecast = this.getSelectedHourForecast(this.hourIndex);
           }
@@ -129,6 +167,8 @@ export class CurrentDayComponent {
             this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
             this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.winddirection_10m = weather.hourly.winddirection_10m.slice(startIndex, endIndex);
+            this.windspeed_10m = weather.hourly.windspeed_10m.slice(startIndex, endIndex);
             this.currentHourForecast = this.getCurrentHourForecast();
             this.currentHourForecast = this.getSelectedHourForecast(this.hourIndex);
           }
@@ -148,7 +188,9 @@ export class CurrentDayComponent {
         precipitationProbability: this.hourlyWeatherPrecipitationProbability[currentHourIndex],
         humidity: this.hourlyWeatherHumidity[currentHourIndex],
         description: this.hourlyWeatherDescriptions[currentHourIndex],
-        icon: this.hourlyWeatherIcons[currentHourIndex]
+        icon: this.hourlyWeatherIcons[currentHourIndex],
+        windDirection: this.winddirection_10m[currentHourIndex],
+        windSpeed: this.windspeed_10m[currentHourIndex]
       };
       return currentHourForecast;
     } else {
@@ -164,7 +206,9 @@ export class CurrentDayComponent {
       precipitationProbability: this.hourlyWeatherPrecipitationProbability[i],
       humidity: this.hourlyWeatherHumidity[i],
       description: this.hourlyWeatherDescriptions[i],
-      icon: this.hourlyWeatherIcons[i]
+      icon: this.hourlyWeatherIcons[i],
+      windDirection: this.winddirection_10m[i],
+      windSpeed: this.windspeed_10m[i]
     };
     return currentHourForecast;
   }
