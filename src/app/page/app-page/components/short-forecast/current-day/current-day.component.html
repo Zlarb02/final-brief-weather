@@ -12,8 +12,10 @@
       <div *ngIf="currentHourForecast"> ressentie
         {{currentHourForecast.apparentTemperature}}°C</div>
       <div *ngIf="currentHourForecast">
-        <img *ngIf="currentHourForecast.icon" src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}"
-          alt="Weather Icon">
+        <img *ngIf="currentHourForecast.icon && currentHourForecast.isDay"
+          src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}" alt="Weather Icon">
+        <img *ngIf="currentHourForecast.iconNight && !currentHourForecast.isDay"
+          src="../../../../../../assets/weather_img/{{currentHourForecast.iconNight}}" alt="Weather Icon">
         {{currentHourForecast.description}} <br>
         {{currentHourForecast.precipitationProbability}} % de chance de précipitation <br>
         {{currentHourForecast.hour}}

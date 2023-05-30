@@ -27,6 +27,8 @@ export class HourlyForecastComponent {
   public hourlyWeather!: number[];
   public hourlyWeatherDescriptions!: string[];
   public hourlyWeatherIcons!: string[];
+  public hourlyWeatherIsDay!: number[]; // 1 Day 0 night
+  public hourlyWeatherIconsNight!: string[];
   public hourlyWeatherTemp!: number[];
   public hourlyWeatherApparentTemp!: number[];
   public hourlyWeatherPrecipitationProbability!: number[]
@@ -38,6 +40,7 @@ export class HourlyForecastComponent {
   @Input() public hourIndex!: number;
 
   public selectedHourForecast!: { hour: string; temperature: number; apparentTemperature: number; precipitationProbability: number; humidity: number; description: string; icon: string; };
+
 
   constructor(private weatherService: WeatherService, private searchService: SearchService, private router: Router, private route: ActivatedRoute, private location: AngularLocation, private siblingService: SiblingService) {
     const url = window.location.pathname;
@@ -130,19 +133,19 @@ export class HourlyForecastComponent {
             this.hourlyWeatherPrecipitationProbability = this.hourlyForecast.precipitation_probability.slice(startIndex, endIndex);
             this.hourlyWeatherHumidity = this.hourlyForecast.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = this.hourlyForecast.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
+            this.hourlyWeatherIsDay = this.hourlyForecast.is_day.slice(startIndex, endIndex);
             this.hourlyWeatherIcons = this.hourlyForecast.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.hourlyWeatherIconsNight = this.hourlyForecast.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIconNight(code));
             if (dayIndex === 0)
               setTimeout(() => {
                 this.scrollToCurrentHour()
-                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
-                if (selectedHourCard)
+                if (this.hourIndex !== this.currentHour)
                   this.scrollToSelectedHour()
               }, 10);
             if (dayIndex !== 0)
               setTimeout(() => {
                 this.scrollTo10()
-                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
-                if (selectedHourCard)
+                if (this.hourIndex !== 10)
                   this.scrollToSelectedHour()
 
               }, 10);
@@ -160,18 +163,18 @@ export class HourlyForecastComponent {
             this.hourlyWeatherPrecipitationProbability = weather.hourly.precipitation_probability.slice(startIndex, endIndex);
             this.hourlyWeatherHumidity = weather.hourly.relativehumidity_2m.slice(startIndex, endIndex);
             this.hourlyWeatherDescriptions = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherDescription(code));
-            this.hourlyWeatherIcons = weather.hourly.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.hourlyWeatherIsDay = this.hourlyForecast.is_day.slice(startIndex, endIndex);
+            this.hourlyWeatherIcons = this.hourlyForecast.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIcon(code));
+            this.hourlyWeatherIconsNight = this.hourlyForecast.weathercode.slice(startIndex, endIndex).map(code => this.weatherService.getWeatherIconNight(code));
             if (dayIndex === 0)
               setTimeout(() => {
                 this.scrollToCurrentHour()
-                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
                 if (this.hourIndex !== this.currentHour)
                   this.scrollToSelectedHour()
               }, 10);
             if (dayIndex !== 0)
               setTimeout(() => {
                 this.scrollTo10()
-                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
                 if (this.hourIndex !== 10)
                   this.scrollToSelectedHour()
               }, 10);

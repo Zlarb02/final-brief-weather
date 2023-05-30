@@ -16,9 +16,14 @@
             <div *ngIf="selectedHourForecast"> ressentie
                 {{selectedHourForecast.apparentTemperature}}°C</div>
             <div *ngIf="selectedHourForecast">
-                <h3><img *ngIf="selectedHourForecast.icon"
+                <h3>
+                    <img *ngIf="selectedHourForecast.icon && selectedHourForecast.isDay"
                         src="../../../../../../assets/weather_img/{{selectedHourForecast.icon}}" alt="Weather Icon">
-                    {{selectedHourForecast.description}}</h3>
+                    <img *ngIf="selectedHourForecast.icon && !selectedHourForecast.isDay"
+                        src="../../../../../../assets/weather_img/{{selectedHourForecast.iconNight}}"
+                        alt="Weather Icon">
+                    {{selectedHourForecast.description}}
+                </h3>
                 {{selectedHourForecast.precipitationProbability}} % de chance de pluie
             </div>
         </div>
