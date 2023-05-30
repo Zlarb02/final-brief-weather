@@ -75,7 +75,6 @@ export class HourlyForecastComponent {
     if (this.cardContainer && this.cardContainer.nativeElement) {
       const currentHourCard = this.cardContainer.nativeElement.querySelector('.current-hour-card');
       if (currentHourCard) {
-        console.log('to current')
         currentHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
@@ -85,7 +84,6 @@ export class HourlyForecastComponent {
     if (this.cardContainer && this.cardContainer.nativeElement) {
       const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
       if (selectedHourCard) {
-        console.log('to selected')
         selectedHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
@@ -93,8 +91,6 @@ export class HourlyForecastComponent {
 
   scrollTo10() {
     if (this.cardContainer && this.cardContainer.nativeElement) {
-
-      console.log('to ten')
       const tenHourCard = this.cardContainer.nativeElement.querySelector('.ten-hour-card');
       if (tenHourCard) {
         tenHourCard.scrollIntoView({ behavior: 'smooth', inline: 'start' });
