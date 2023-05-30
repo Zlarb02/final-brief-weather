@@ -1,11 +1,11 @@
 <div *ngIf="dailyForecast" class="container">
-  <div class="upper-data">
-    <img class='bg-img' src="../assets/alain.png" alt="background image" />
+  <div class="upper-data" [ngClass]="{'bg-red': chosenPlace}">
+    <img *ngIf="!chosenPlace" class='bg-img' src="../assets/alain.png" alt="background image" />
     <div class="meteo-data">
-      <span ng *ngIf="currentLocation && !chosenPlace" class="location">{{ currentLocation.address.city}}, {{
+      <span ng *ngIf="currentLocation && !displayNameChosenPlace" class="location">{{ currentLocation.address.city}}, {{
         currentLocation.address.country}}
       </span>
-      <div ng *ngIf="chosenPlace" class="location">{{ chosenPlace.display_name}}
+      <div ng *ngIf="displayNameChosenPlace" class="location">{{ displayNameChosenPlace}}
       </div>
 
       <div *ngIf="currentHourForecast">{{formatDate(dates[dayIndex])}} {{currentHourForecast.hour}}</div>
@@ -26,7 +26,7 @@
     </div>
   </div>
   <div class="lower-data">
-    <div class="container">
+    <div class="container" [ngClass]="{'bg-blue-transparent': chosenPlace}">
       <div class="row">
         <div class="col">
           <div class="info-block">

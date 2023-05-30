@@ -1,6 +1,8 @@
 :root{
     --blue1: #C5DBE2;
     --blue2: #007981;
+    --blue2transparent: rgba(0, 121, 129, 0.8);
+    --red: rgba(129, 7, 0, 0.8);
     --shadow-dark: rgba(33, 33, 33, 0.3);
     --shadow-light: rgba(6, 23, 30, 0.7);
 }
@@ -21,13 +23,18 @@ body{
 }
 
 .card {
-border-radius: 6px};
+    border-radius: 6px;
+    border: none;
+};
 .container{
     padding-right: 0%;
     padding-left: 0%;
 }
 
 .place-not-found {
+    position:fixed;
+    top: 5vh;
+    right: 5vh;
     background-color: #ee2d41;
     border-radius: 0.5rem;
     color: #fff;

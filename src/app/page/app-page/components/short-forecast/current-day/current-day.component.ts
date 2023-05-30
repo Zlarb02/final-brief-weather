@@ -51,6 +51,7 @@ export class CurrentDayComponent {
 
   public hourlyWeatherIsDay!: number[];
   public hourlyWeatherIconsNight!: string[];
+  public displayNameChosenPlace: any;
 
   constructor(private weatherService: WeatherService, private searchService: SearchService, private siblingService: SiblingService) {
     this.setIndexs()
@@ -71,6 +72,11 @@ export class CurrentDayComponent {
   ngOnInit() {
     this.searchService.getPlace().subscribe((osmObj) => {
       this.chosenPlace = osmObj;
+      if (this.chosenPlace)
+        this.displayNameChosenPlace = this.chosenPlace.display_name.split(',')
+          .map((item: string) => item.trim())
+          .filter((_: any, index: number, array: string | any[]) => index === 0 || index === 1 || index === array.length - 2 || index === array.length - 1)
+          .join(', ');
       this.getDailyForecast();
       this.getHourlyForecast(this.dayIndex);
     });

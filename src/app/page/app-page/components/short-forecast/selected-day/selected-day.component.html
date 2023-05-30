@@ -1,22 +1,24 @@
 <div *ngIf="dailyForecast" class="container">
-    <div class="upper-data">
-        <img class="bg-img" src="../assets/alain.png" alt="background image" />
+    <div class="upper-data" [ngClass]="{'bg-red': chosenPlace}">
+        <img *ngIf="!chosenPlace" class="bg-img" src="../assets/alain.png" alt="background image" />
         <div class="meteo-data">
-            <span ng *ngIf="currentLocation && !chosenPlace" class="location">{{ currentLocation.address.city}}, {{
+            <span style="font-weight: 800;" ng *ngIf="currentLocation && !displayNameChosenPlace" class="location">{{
+                currentLocation.address.city}}, {{
                 currentLocation.address.country}}
             </span>
-            <div ng *ngIf="displayNameChosenPlace" class="location">{{displayNameChosenPlace}}
+            <div style=" font-weight: 800;" ng *ngIf="displayNameChosenPlace" class="location">
+                {{displayNameChosenPlace}}
             </div>
             <div *ngIf="selectedHourForecast">
                 {{ formatDate(dates[dayIndex]) }}
                 {{selectedHourForecast.hour}}
             </div>
-            <div *ngIf="selectedHourForecast" class="temp">
+            <div style="color:beige;" *ngIf="selectedHourForecast" class="temp">
                 {{selectedHourForecast.temperature}}°C</div>
             <div *ngIf="selectedHourForecast"> ressentie
                 {{selectedHourForecast.apparentTemperature}}°C</div>
-            <div *ngIf="selectedHourForecast" style="text-align: center;">
-                <h3>
+            <div *ngIf="selectedHourForecast" style="text-align: center; padding-bottom: 2vh;">
+                <h3 style="margin-bottom: -1vh; margin-top: -1vh; color:beige;">
                     <img *ngIf="selectedHourForecast.icon && selectedHourForecast.isDay"
                         src="../../../../../../assets/weather_img/{{selectedHourForecast.icon}}" alt="Weather Icon">
                     <img *ngIf="selectedHourForecast.icon && !selectedHourForecast.isDay"
@@ -29,7 +31,7 @@
         </div>
     </div>
     <div class="lower-data">
-        <div class="container">
+        <div class="container" [ngClass]="{'bg-blue-transparent': chosenPlace}">
             <div class="row">
                 <div class="col">
                     <div class="info-block">

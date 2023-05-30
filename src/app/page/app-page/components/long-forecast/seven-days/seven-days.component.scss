@@ -6,7 +6,6 @@
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     padding-bottom: 2.5vmin;
     overflow: hidden;
-
     border-radius: 6px;
 }
 
@@ -28,6 +27,11 @@
     font-size: smaller;
 }
 
+.card-body {
+    font-size: large;
+    text-align: center;
+}
+
 .daily-card-container{
     overflow-x: scroll;
 }
@@ -40,5 +44,23 @@ label{
     align-items: center;
     justify-content: center;
     margin-top: 2vh;
+    font-size: larger;
 }
 
+.up{
+    margin-top: -9vh;
+}
+
+.break-line{
+    display: none;
+}
+
+.bg-blue-transparent{
+    background-color: var(--blue2transparent);
+}
+
+@media (max-width: 530px) {
+    .break-line{
+        display: block;
+    }
+}

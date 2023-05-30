@@ -42,20 +42,19 @@
     z-index: 2;
     position: relative;
     margin-left: 2vh;
-    margin-bottom: 5vh;
+    margin-bottom: 3vh;
     top: 1vh;
     text-align: center;
 }
 
 .search input{
-    background-color: var(--blue2);
     outline: none;
     border: none;
     border-radius: 6px;
     padding: 1em;
     color: whitesmoke;
     width: 250px;
-    font-size: 0.8em;
+    font-size: medium;
     text-align: center;
 }
 
@@ -63,3 +62,10 @@ input::placeholder {
     color: whitesmoke;
 }
 
+.bg-blue{
+    background-color: var(--blue2);
+}
+
+.bg-blue-transparent{
+    background-color: var(--blue2transparent);
+}

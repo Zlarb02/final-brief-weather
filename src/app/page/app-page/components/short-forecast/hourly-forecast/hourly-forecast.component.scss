@@ -5,7 +5,6 @@
     background-color: var(--blue2);
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     padding-bottom: 0.5vmin;
-
     border-radius: 6px;
 }
 
@@ -26,10 +25,24 @@
     font-size: smaller;
 }
 
+.card-body {
+    font-size: large;
+    text-align: center;
+}
+
 label{
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 2vh;
+    font-size: larger;
 }
 
+.bg-red{
+    background-color: var(--red);
+}
+
+
+.up{
+    margin-top: -9vh;
+}
