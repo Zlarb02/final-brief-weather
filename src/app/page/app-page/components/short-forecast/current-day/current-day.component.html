@@ -7,128 +7,71 @@
       </span>
       <div ng *ngIf="chosenPlace" class="location">{{ chosenPlace.display_name}}
       </div>
+
+      <div *ngIf="currentHourForecast">{{formatDate(dates[dayIndex])}} {{currentHourForecast.hour}}</div>
       <div *ngIf="currentHourForecast" class="temp">
         {{currentHourForecast.temperature}}°C</div>
       <div *ngIf="currentHourForecast"> ressentie
         {{currentHourForecast.apparentTemperature}}°C</div>
-      <div *ngIf="currentHourForecast">
-        <img *ngIf="currentHourForecast.icon && currentHourForecast.isDay"
-          src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}" alt="Weather Icon">
-        <img *ngIf="currentHourForecast.iconNight && !currentHourForecast.isDay"
-          src="../../../../../../assets/weather_img/{{currentHourForecast.iconNight}}" alt="Weather Icon">
-        {{currentHourForecast.description}} <br>
-        {{currentHourForecast.precipitationProbability}} % de chance de précipitation <br>
-        {{currentHourForecast.hour}}
+      <div *ngIf="currentHourForecast" style="text-align: center;">
+        <h3>
+          <img *ngIf="currentHourForecast.icon && currentHourForecast.isDay"
+            src="../../../../../../assets/weather_img/{{currentHourForecast.icon}}" alt="Weather Icon">
+          <img *ngIf="currentHourForecast.icon && !currentHourForecast.isDay"
+            src="../../../../../../assets/weather_img/{{currentHourForecast.iconNight}}" alt="Weather Icon">
+          {{currentHourForecast.description}}
+        </h3>
+        {{currentHourForecast.precipitationProbability}} % de chance de pluie
       </div>
     </div>
   </div>
   <div class="lower-data">
-    <div class="more-infos-container">
-      <div class="infos-block">
-        <div class="infos-block-label">
-          <span>min</span>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="info-block">
+            <div class="info-label">Temp min :</div>
+            <div class="info-value">{{ sevenWeatherTempMin[dayIndex] }}°C</div>
+          </div>
         </div>
-        <div class="infos-block-value">{{sevenWeatherTempMin[dayIndex]}} °C</div>
+        <div class="col">
+          <div class="info-block">
+            <div class="info-label">Temp max :</div>
+            <div class="info-value">{{ sevenWeatherTempMax[dayIndex] }}°C</div>
+          </div>
+        </div>
       </div>
-      <div class="infos-block">
-        <div class="infos-block-label">
-          <span>max</span>
+      <hr>
+      <div class="row">
+        <div class="col">
+          <div class="info-block">
+            <div class="info-label">Humidité :</div>
+            <div style="height: 0.6vmax;"></div>
+            <div *ngIf="currentHourForecast" class="info-value">
+              <i class="fa-solid fa-droplet"></i> :&nbsp;&nbsp;{{ currentHourForecast.humidity }}
+            </div>
+          </div>
         </div>
-        <div class="infos-block-value">{{sevenWeatherTempMax[dayIndex]}} °C</div>
-      </div>
-      <div class="infos-block">
-        <div class="infos-block-label">
-          Humidité
-          <span> <i class="fa-solid fa-droplet"></i>&nbsp;:&nbsp;&nbsp;</span>
-        </div>
-        <div *ngIf="currentHourForecast" class="infos-block-value"> {{currentHourForecast.humidity}}%</div>
-      </div>
-      <div class="infos-block">
-        <div class="infos-block-label">
-          Vitesse du vent
-          <span> <i class="fa-solid fa-wind"></i> :&nbsp;&nbsp;</span>
-          Provenance/Direction
-          <span><i class="fa-regular fa-compass"></i>&nbsp;:&nbsp;&nbsp;</span>
-        </div>
-        <div *ngIf="!currentHourForecast" class="infos-block-value">
-          <br>
-          <p>{{windspeed_10m[dayIndex]}} km/h</p>
-          <i class="fa-solid fa-angles-down" *ngIf="windspeed_10m[dayIndex] > 50"
-            [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
-          <i class="fa-solid fa-circle-down" *ngIf="windspeed_10m[dayIndex] < 50"
-            [ngStyle]="{'transform': 'rotate(' + winddirection_10m[dayIndex] + 'deg)'}"></i>
-          <p>
-            <span *ngIf="winddirection_10m[dayIndex] >= 0 && winddirection_10m[dayIndex] < 11.25">Nord</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 11.25 && winddirection_10m[dayIndex] < 33.75">Nord-Nord-Est</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 33.75 && winddirection_10m[dayIndex] < 56.25">Nord-Est</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 56.25 && winddirection_10m[dayIndex] < 78.75">Est-Nord-Est</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 78.75 && winddirection_10m[dayIndex] < 101.25">Est</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 101.25 && winddirection_10m[dayIndex] < 123.75">Est-Sud-Est</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 123.75 && winddirection_10m[dayIndex] < 146.25">Sud-Est</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 146.25 && winddirection_10m[dayIndex] < 168.75">Sud-Sud-Est</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 168.75 && winddirection_10m[dayIndex] < 191.25">Sud</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 191.25 && winddirection_10m[dayIndex] < 213.75">Sud-Sud-Ouest</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 213.75 && winddirection_10m[dayIndex] < 236.25">Sud-Ouest</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 236.25 && winddirection_10m[dayIndex] < 258.75">Ouest-Sud-Ouest</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 258.75 && winddirection_10m[dayIndex] < 281.25">Ouest</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 281.25 && winddirection_10m[dayIndex] < 303.75">Ouest-Nord-Ouest</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 303.75 && winddirection_10m[dayIndex] < 326.25">Nord-Ouest</span>
-            <span
-              *ngIf="winddirection_10m[dayIndex] >= 326.25 && winddirection_10m[dayIndex] < 348.75">Nord-Nord-Ouest</span>
-            <span *ngIf="winddirection_10m[dayIndex] >= 348.75 || winddirection_10m[dayIndex] < 11.25">Nord</span>
-          </p>
-        </div>
-        <div *ngIf="currentHourForecast" class="infos-block-value">
-          <br>
-          <p>{{currentHourForecast.windSpeed}} km/h</p>
-          <i class="fa-solid fa-angles-down" *ngIf="currentHourForecast.windSpeed > 50"
-            [ngStyle]="{'transform': 'rotate(' + currentHourForecast.windDirection + 'deg)'}"></i>
-          <i class="fa-solid fa-circle-down" *ngIf="currentHourForecast.windSpeed < 50"
-            [ngStyle]="{'transform': 'rotate(' + currentHourForecast.windDirection + 'deg)'}"></i>
-          <p>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 0 && currentHourForecast.windDirection < 11.25">Nord</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 11.25 && currentHourForecast.windDirection < 33.75">Nord-Nord-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 33.75 && currentHourForecast.windDirection < 56.25">Nord-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 56.25 && currentHourForecast.windDirection < 78.75">Est-Nord-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 78.75 && currentHourForecast.windDirection < 101.25">Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 101.25 && currentHourForecast.windDirection < 123.75">Est-Sud-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 123.75 && currentHourForecast.windDirection < 146.25">Sud-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 146.25 && currentHourForecast.windDirection < 168.75">Sud-Sud-Est</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 168.75 && currentHourForecast.windDirection < 191.25">Sud</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 191.25 && currentHourForecast.windDirection < 213.75">Sud-Sud-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 213.75 && currentHourForecast.windDirection < 236.25">Sud-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 236.25 && currentHourForecast.windDirection < 258.75">Ouest-Sud-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 258.75 && currentHourForecast.windDirection < 281.25">Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 281.25 && currentHourForecast.windDirection < 303.75">Ouest-Nord-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 303.75 && currentHourForecast.windDirection < 326.25">Nord-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 326.25 && currentHourForecast.windDirection < 348.75">Nord-Nord-Ouest</span>
-            <span
-              *ngIf="currentHourForecast.windDirection >= 348.75 || currentHourForecast.windDirection < 11.25">Nord</span>
-          </p>
+        <div class="col">
+          <div *ngIf="currentHourForecast" class="info-block-2">
+            <div class="info-label vent">Vent :</div>
+
+            <div class="info-value"><i class="fa-solid fa-wind"></i> :&nbsp;&nbsp;<br class="break-line">{{
+              currentHourForecast.windSpeed
+              }} km/h
+            </div>
+            <div class="info-direction">
+              <i class="fa-regular fa-compass"></i> :&nbsp;&nbsp;
+              <i class="fa-solid fa-angles-down" *ngIf="currentHourForecast.windSpeed > 50"
+                [ngStyle]="{'transform': 'rotate(' + currentHourForecast.windDirection + 'deg)'}"></i>
+              <i class="fa-solid fa-circle-down" *ngIf="currentHourForecast.windSpeed < 50"
+                [ngStyle]="{'transform': 'rotate(' + currentHourForecast.windDirection + 'deg)'}"></i>
+              <br class="break-line-2">
+              <span>
+                {{ getWindDirection(currentHourForecast.windDirection) }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

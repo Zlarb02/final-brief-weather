@@ -1,7 +1,7 @@
-
 .container{
     margin-top: 2vh;
-    height: 60vmax;
+    height: auto;
+    min-height: auto;
     width: 75vw;
     background-color: var(--blue2);
     border-radius: 6px;
@@ -10,40 +10,39 @@
 
 
 .upper-data{
-    position: relative;
+    position:relative;
+    display: flex;
     overflow: hidden;
     width: 100%;
-    height: 50%;
+    height: auto;
+    border-radius: 6px;
 }
 
 .lower-data{
     position: relative;
-    overflow: hidden;
+    overflow: scroll;
+    padding: 2vw;
     width: 100%;
-    height: 50%;
+    height: auto;
     display: flex;
-    flex-direction: column;
 }
 
 .bg-img {
     position: absolute;
     top: -26vmax;
     left: -50vmax;
-    width: 130vmax;
-    filter: brightness(0.5);
+    width: 140vmax;
+    filter: brightness(0.6);
 }  
 
 .meteo-data{
     position: relative;
-    z-index: 1;
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     font-size:large;
-    overflow-x: scroll;
 }
 
 .location {
@@ -53,8 +52,13 @@
 
 .temp{
     text-align: center;
-    font-size: 2em;
+    font-size: 1.6em;
     font-weight: 900;
+}
+
+.info-label{
+    color:beige;
+    font-weight: 300;
 }
 
 .more-infos-label{
@@ -93,20 +97,56 @@
     display: flex;
 }
 
-.infos-block-value{
-    margin-left: 60px;
-    width: 500px;
-    display: block;
-    justify-content: flex-start;
-    align-items: center;
-    color: whitesmoke;
+.info-value{
+    font-weight: 700;
+}
+
+.info-direction, .info-block-2 .info-value, .vent{
+    padding-left: 10vw;
+    text-align:left;
+}
+
+.vent{
+    padding-left: 13vw;
 }
 
 .fa-solid, .fa-regular{
-    font-size: 30px;
+    font-size: 20px;
 }
-@media (max-width: 730px) {
+
+.row{
+    align-items: center;
+    text-align: center;
+}
+
+.break-line, .break-line-2{
+    display: none;
+}
+
+@media (max-width: 777px) {
     .bg-img {
         left: -70vmax;
+        width: 150vmax;
+    }
+    .break-line-2{
+        display: block;
+    }
+}
+@media (max-width: 530px) {
+    .break-line{
+        display: block;
+    }
+
+    h3{
+        font-size: 5vw;
+    }
+    .meteo-data{
+        font-size: 5vw;
+    }
+    .location{
+        font-size: 4vw;
+    }
+    .temp{
+        font-size: 5vw;
     }
 }

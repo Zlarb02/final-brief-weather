@@ -52,6 +52,7 @@ export class SelectedDayComponent {
   public hourIndex!: number;
   public hourlyWeatherIconsNight!: string[];
   public hourlyWeatherIsDay!: number[];
+  public displayNameChosenPlace!: string;
 
   constructor(private weatherService: WeatherService, private searchService: SearchService, private siblingService: SiblingService) {
     this.setIndexs()
@@ -73,6 +74,12 @@ export class SelectedDayComponent {
   ngOnInit() {
     this.searchService.getPlace().subscribe((osmObj) => {
       this.chosenPlace = osmObj;
+      if (this.chosenPlace)
+        this.displayNameChosenPlace = this.chosenPlace.display_name.split(',')
+          .map((item: string) => item.trim())
+          .filter((_: any, index: number, array: string | any[]) => index === 0 || index === 1 || index === array.length - 2 || index === array.length - 1)
+          .join(', ');
+
       this.getDailyForecast();
       this.getHourlyForecast(this.dayIndex)
     });
@@ -204,6 +211,40 @@ export class SelectedDayComponent {
     return selectedHourForecast;
   }
 
-
+  getWindDirection(degrees: number): string {
+    if (degrees >= 348.75 || degrees < 11.25) {
+      return 'Nord';
+    } else if (degrees >= 11.25 && degrees < 33.75) {
+      return 'Nord-Nord-Est';
+    } else if (degrees >= 33.75 && degrees < 56.25) {
+      return 'Nord-Est';
+    } else if (degrees >= 56.25 && degrees < 78.75) {
+      return 'Est-Nord-Est';
+    } else if (degrees >= 78.75 && degrees < 101.25) {
+      return 'Est';
+    } else if (degrees >= 101.25 && degrees < 123.75) {
+      return 'Est-Sud-Est';
+    } else if (degrees >= 123.75 && degrees < 146.25) {
+      return 'Sud-Est';
+    } else if (degrees >= 146.25 && degrees < 168.75) {
+      return 'Sud-Sud-Est';
+    } else if (degrees >= 168.75 && degrees < 191.25) {
+      return 'Sud';
+    } else if (degrees >= 191.25 && degrees < 213.75) {
+      return 'Sud-Sud-Ouest';
+    } else if (degrees >= 213.75 && degrees < 236.25) {
+      return 'Sud-Ouest';
+    } else if (degrees >= 236.25 && degrees < 258.75) {
+      return 'Ouest-Sud-Ouest';
+    } else if (degrees >= 258.75 && degrees < 281.25) {
+      return 'Ouest';
+    } else if (degrees >= 281.25 && degrees < 303.75) {
+      return 'Ouest-Nord-Ouest';
+    } else if (degrees >= 303.75 && degrees < 326.25) {
+      return 'Nord-Ouest';
+    } else {
+      return 'Nord-Nord-Ouest';
+    }
+  }
 
 }
