@@ -1,10 +1,9 @@
 
 .daily-container{
     margin-top: 2vh;    
-    height: 35vh;
+    height: 40vh;
     width: 95vw;
     background-color: var(--blue2);
-    border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
     padding-bottom: 2.5vmin;
     overflow: hidden;
@@ -16,7 +15,7 @@
     border-radius: 5px;
     border: solid 3px var(--shadow-dark);
     margin: 10px;
-    padding: 10px
+    padding: 10px;
 }
 .row {
     flex-shrink: 0;
@@ -30,10 +29,16 @@
 
 .daily-card-container{
     overflow-x: scroll;
-    height: 25vh;
+    height: 35vh;
 }
 .daily-card{
     width:  25vw;
 }
 
+label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
 
