@@ -7,8 +7,10 @@
             </span>
             <div ng *ngIf="chosenPlace" class="location">{{chosenPlace.display_name}}
             </div>
-            {{ formatDate(dates[dayIndex]) }}
-            {{selectedHourForecast.hour}}
+            <div *ngIf="selectedHourForecast">
+                {{ formatDate(dates[dayIndex]) }}
+                {{selectedHourForecast.hour}}
+            </div>
             <div *ngIf="selectedHourForecast" class="temp">
                 {{selectedHourForecast.temperature}}°C</div>
             <div *ngIf="selectedHourForecast"> ressentie
@@ -27,7 +29,7 @@
                 <div class="infos-block-label">
                     <span>Humidite :&nbsp;&nbsp;<i class="fa-solid fa-droplet-percent"></i></span>
                 </div>
-                <div class="infos-block-value"> {{selectedHourForecast.humidity}} %</div>
+                <div *ngIf="selectedHourForecast" class="infos-block-value"> {{selectedHourForecast.humidity}} %</div>
             </div>
             <div class="infos-block">
                 <div class="infos-block">

@@ -25,12 +25,14 @@ export class SearchBarComponent implements OnInit {
 
   ngOnInit() {
     this.startSlideshow();
+
     this.searchService.getPlace().subscribe((osmObj) => {
-      this.locationImgService.getImgFromLoc(osmObj.display_name).subscribe({
-        next: (response: any) => {
-          this.photos = response.results;
-        }
-      });
+      if (osmObj)
+        this.locationImgService.getImgFromLoc(osmObj.display_name).subscribe({
+          next: (response: any) => {
+            this.photos = response.results;
+          }
+        });
     });
 
   }
@@ -45,7 +47,6 @@ export class SearchBarComponent implements OnInit {
     this.chosenLocationService.getLatAndLonFromSearch(place).subscribe({
       next: (osmObj) => {
         this.locationFound = osmObj[0];
-        console.log(this.locationFound)
         this.locationImgService.getImgFromLoc(this.locationFound.display_name).subscribe({
           next: (response: any) => {
             this.photos = response.results;
@@ -60,7 +61,7 @@ export class SearchBarComponent implements OnInit {
     setInterval(() => {
       if (this.photos)
         this.currentIndex = (this.currentIndex + 1) % this.photos.length;
-    }, 5000); // Changer le délai ici (en millisecondes) selon vos besoins
+    }, 5000);
   }
 
 }

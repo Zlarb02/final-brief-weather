@@ -138,10 +138,16 @@ export class HourlyForecastComponent {
             if (dayIndex === 0)
               setTimeout(() => {
                 this.scrollToCurrentHour()
+                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
+                if (selectedHourCard)
+                  this.scrollToSelectedHour()
               }, 10);
             if (dayIndex !== 0)
               setTimeout(() => {
                 this.scrollTo10()
+                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
+                if (selectedHourCard)
+                  this.scrollToSelectedHour()
 
               }, 10);
             this.selectedHourForecast = this.getSelectedHourForecast(this.hourIndex);
@@ -162,10 +168,16 @@ export class HourlyForecastComponent {
             if (dayIndex === 0)
               setTimeout(() => {
                 this.scrollToCurrentHour()
+                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
+                if (this.hourIndex !== this.currentHour)
+                  this.scrollToSelectedHour()
               }, 10);
             if (dayIndex !== 0)
               setTimeout(() => {
                 this.scrollTo10()
+                const selectedHourCard = this.cardContainer.nativeElement.querySelector('.selected-hour-card');
+                if (this.hourIndex !== 10)
+                  this.scrollToSelectedHour()
               }, 10);
             this.selectedHourForecast = this.getSelectedHourForecast(this.hourIndex);
           }
