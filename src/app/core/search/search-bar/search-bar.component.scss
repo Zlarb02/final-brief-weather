@@ -39,7 +39,7 @@
 
 
 .search{
-    z-index: 20;
+    z-index: 2;
     position: relative;
     margin-left: 2vh;
     margin-bottom: 5vh;
@@ -54,6 +54,7 @@
     border-radius: 6px;
     padding: 1em;
     color: whitesmoke;
+    width: 250px;
     font-size: 0.8em;
     text-align: center;
 }

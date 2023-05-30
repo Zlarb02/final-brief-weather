@@ -1,6 +1,7 @@
 <div class="search">
     <form #form="ngForm" (submit)="onSubmit()">
-        <input type="text" placeholder="recherche (villes, pays..)" name="city" [(ngModel)]="locationInput">
+        <input type="text" [placeholder]="placeholderText" (focus)="removePlaceholder()" (blur)="restorePlaceholder()"
+            name="city" [(ngModel)]="locationInput">
     </form>
 </div>
 <div class="slideshow">

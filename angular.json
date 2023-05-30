@@ -30,10 +30,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/toastr/build/toastr.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": [
+              "node_modules/toastr/build/toastr.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
