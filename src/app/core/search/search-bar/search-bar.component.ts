@@ -111,13 +111,13 @@ export class SearchBarComponent implements OnInit {
     }, 5000);
   }
 
-  placeholderText: string = "Chercher Lieu (Ville, Pays, ...)";
+  placeholderText: string = "Chercher Lieu (Ville, Pays...)";
 
   removePlaceholder() {
     this.placeholderText = "";
   }
 
   restorePlaceholder() {
-    this.placeholderText = "Chercher Lieu (Ville, Pays, ...)";
+    this.placeholderText = "Chercher Lieu (Ville, Pays...)";
   }
 }
