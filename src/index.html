@@ -6,6 +6,16 @@
   <title>FinalBriefWeather</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 1900 || window.innerHeight >= 1200) {
+        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1900, height=1200');
+      } else {
+        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
+      }
+    });
+  </script>
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://kit.fontawesome.com/8ae3686d6a.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
