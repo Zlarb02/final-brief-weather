@@ -20,7 +20,6 @@
 
 .lower-data{
     position: relative;
-    overflow: scroll;
     padding: 2vw;
     width: 100%;
     height: auto;
@@ -89,14 +88,6 @@
     font-weight: 700;
 }
 
-.info-direction, .info-block-2 .info-value, .vent{
-    padding-left: 10vw;
-    text-align:left;
-}
-
-.vent{
-    padding-left: 13vw;
-}
 
 .fa-solid, .fa-regular{
     font-size: 20px;
