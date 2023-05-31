@@ -5,7 +5,24 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/day/1'
+    redirectTo: 'day/1'
+  },
+  {
+    path: 'day',
+    children: Array.from({ length: 7 }, (_, dayIndex) => {
+      const dayChildren = Array.from({ length: 24 }, (_, hourIndex) => {
+        return {
+          path: `${hourIndex}`,
+          loadChildren: () => import('./page/page.module').then(m => m.PageModule)
+        };
+      });
+
+      return {
+        path: `${dayIndex + 1}`,
+        loadChildren: () => import('./page/page.module').then(m => m.PageModule),
+        children: dayChildren
+      };
+    })
   },
   {
     path: '**',
